@@ -1,11 +1,11 @@
 <?php
 
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\CreateAuthorAction;
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\CreateBookAction;
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ListBooksAction;
-use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ViewBookAction;
+use Catalog\Infrastructure\Http\Slim\Action\Author\CreateAuthorAction;
+use Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
+use Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;
+use Catalog\Infrastructure\Http\Slim\Action\Book\CreateBookAction;
+use Catalog\Infrastructure\Http\Slim\Action\Book\ListBooksAction;
+use Catalog\Infrastructure\Http\Slim\Action\Book\ViewBookAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;

@@ -1,11 +1,11 @@
 <?php
 
-use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommand;
-use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
-use Bookstore\Catalog\Application\Command\Book\Create\CreateBookCommand;
-use Bookstore\Catalog\Application\Command\Book\Create\CreateBookCommandHandler;
-use Bookstore\Catalog\Infrastructure\Bus\InMemory\InMemoryCommandBus;
-use Bookstore\Shared\Application\Command\CommandBus;
+use Catalog\Application\Command\Author\Create\CreateAuthorCommand;
+use Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
+use Catalog\Application\Command\Book\Create\CreateBookCommand;
+use Catalog\Application\Command\Book\Create\CreateBookCommandHandler;
+use Catalog\Infrastructure\Bus\InMemory\InMemoryCommandBus;
+use Shared\Application\Command\CommandBus;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 

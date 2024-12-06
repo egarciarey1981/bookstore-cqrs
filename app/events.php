@@ -1,11 +1,11 @@
 <?php
 
-use Bookstore\Catalog\Application\Event\Author\AuthorCreatedEventHandler;
-use Bookstore\Catalog\Application\Event\Book\BookCreatedEventHandler;
-use Bookstore\Shared\Application\Event\Author\AuthorCreatedEvent;
-use Bookstore\Shared\Application\Event\Book\BookCreatedEvent;
-use Bookstore\Shared\Application\Event\EventBus;
-use Bookstore\Shared\Infrastructure\Bus\InMemory\InMemoryEventBus;
+use Catalog\Application\Event\Author\AuthorCreatedEventHandler;
+use Catalog\Application\Event\Book\BookCreatedEventHandler;
+use Shared\Application\Event\Author\AuthorCreatedEvent;
+use Shared\Application\Event\Book\BookCreatedEvent;
+use Shared\Application\Event\EventBus;
+use Shared\Infrastructure\Bus\InMemory\InMemoryEventBus;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 

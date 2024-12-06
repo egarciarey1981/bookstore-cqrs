@@ -7,7 +7,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Bookstore\\": "src/Bookstore"
+            "Catalog\\": "src/Catalog",
+            "Shared\\": "src/Shared"
         }
     },
     "require-dev": {

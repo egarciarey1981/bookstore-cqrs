@@ -1,15 +1,15 @@
 <?php
 
-use Bookstore\Catalog\Application\Query\Author\List\ListAuthorsQuery;
-use Bookstore\Catalog\Application\Query\Author\List\ListAuthorsQueryHandler;
-use Bookstore\Catalog\Application\Query\Author\View\ViewAuthorQuery;
-use Bookstore\Catalog\Application\Query\Author\View\ViewAuthorQueryHandler;
-use Bookstore\Catalog\Application\Query\Book\List\ListBooksQuery;
-use Bookstore\Catalog\Application\Query\Book\List\ListBooksQueryHandler;
-use Bookstore\Catalog\Application\Query\Book\View\ViewBookQuery;
-use Bookstore\Catalog\Application\Query\Book\View\ViewBookQueryHandler;
-use Bookstore\Catalog\Infrastructure\Bus\InMemory\InMemoryQueryBus;
-use Bookstore\Shared\Application\Query\QueryBus;
+use Catalog\Application\Query\Author\List\ListAuthorsQuery;
+use Catalog\Application\Query\Author\List\ListAuthorsQueryHandler;
+use Catalog\Application\Query\Author\View\ViewAuthorQuery;
+use Catalog\Application\Query\Author\View\ViewAuthorQueryHandler;
+use Catalog\Application\Query\Book\List\ListBooksQuery;
+use Catalog\Application\Query\Book\List\ListBooksQueryHandler;
+use Catalog\Application\Query\Book\View\ViewBookQuery;
+use Catalog\Application\Query\Book\View\ViewBookQueryHandler;
+use Catalog\Infrastructure\Bus\InMemory\InMemoryQueryBus;
+use Shared\Application\Query\QueryBus;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
