@@ -9,3 +9,4 @@ services:
     command: php -S 0.0.0.0:8080 -t public
     volumes:
       - .:/var/www/html
+      - ./etc/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
