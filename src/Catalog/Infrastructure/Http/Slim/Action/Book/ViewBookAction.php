@@ -28,7 +28,7 @@ class ViewBookAction extends Action
 
         $this->response->getBody()->write(json_encode([
             'book' => $book,
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $this->logger->info("Book was viewed.", $this->args);
 

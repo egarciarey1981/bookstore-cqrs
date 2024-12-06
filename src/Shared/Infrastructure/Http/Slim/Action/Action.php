@@ -67,7 +67,7 @@ abstract class Action
         $this->logger->error($message, $context);
 
         if (null !== $payload) {
-            $this->response->getBody()->write(json_encode($payload));
+            $this->response->getBody()->write(json_encode($payload, JSON_THROW_ON_ERROR));
             $this->response = $this->response->withHeader('Content-Type', 'application/json');
         }
 

@@ -24,6 +24,7 @@ class CreateBookAction extends Action
     public function action(): Response
     {
         $formData = $this->request->getParsedBody();
+        assert(is_array($formData));
         $this->validateFormData($formData);
 
         $this->commandBus->dispatch(new CreateBookCommand(

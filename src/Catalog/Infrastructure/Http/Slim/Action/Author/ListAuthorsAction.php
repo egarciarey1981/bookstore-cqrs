@@ -33,7 +33,7 @@ class ListAuthorsAction extends Action
 
         $this->response->getBody()->write(json_encode([
             'authors' => $authors,
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $this->logger->info("Authors were viewed.", $queryParams);
 

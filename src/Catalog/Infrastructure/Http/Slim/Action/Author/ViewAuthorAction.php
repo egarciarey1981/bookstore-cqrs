@@ -28,7 +28,7 @@ class ViewAuthorAction extends Action
 
         $this->response->getBody()->write(json_encode([
             'author' => $author,
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $this->logger->info("Author was viewed.", $this->args);
 

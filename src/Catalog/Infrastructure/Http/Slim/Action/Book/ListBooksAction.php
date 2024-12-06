@@ -33,7 +33,7 @@ class ListBooksAction extends Action
 
         $this->response->getBody()->write(json_encode([
             'books' => $books,
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $this->logger->info("Books were viewed.", $queryParams);
 
