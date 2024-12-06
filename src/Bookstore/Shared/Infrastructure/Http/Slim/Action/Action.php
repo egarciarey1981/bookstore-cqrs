@@ -2,7 +2,9 @@
 
 namespace Bookstore\Shared\Infrastructure\Http\Slim\Action;
 
+use Bookstore\Shared\Domain\Exception\InvalidDataException;
 use Bookstore\Shared\Domain\Exception\ResourceNotFoundException;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -28,19 +30,41 @@ abstract class Action
 
         try {
             return $this->action();
-        } catch (ResourceNotFoundException $e) {
-            $this->logger->error($e->getMessage(), $e->getContext());
-            return $this->response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(404);
         } catch (Throwable $t) {
-            $this->logger->error($t->getMessage());
-            return $this->response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(500);
+            return $this->handlerException($t);
         }
-        die('como');
     }
 
     abstract protected function action(): Response;
+
+    private function handlerException(Throwable $t): Response
+    {
+        $message = '';
+        $context = [];
+        $status = null;
+        $payload = null;
+
+        if ($t instanceof InvalidDataException) {
+            $message = $t->getMessage();
+            $context = $t->getContext();
+            $status = 400;
+            $payload = ['error' => $t->getMessage()];
+        } elseif ($t instanceof ResourceNotFoundException) {
+            $message = $t->getMessage();
+            $context = $t->getContext();
+            $status = 404;
+        } else {
+            $message = 'Internal Server Error';
+            $status = 500;
+        }
+
+        $this->logger->error($message, $context);
+
+        if (null !== $payload) {
+            $this->response->getBody()->write(json_encode($payload));
+            $this->response = $this->response->withHeader('Content-Type', 'application/json');
+        }
+
+        return $this->response->withStatus($status);
+    }
 }
