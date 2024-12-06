@@ -22,18 +22,18 @@ class ListAuthorsAction extends Action
 
     public function action(): Response
     {
-        $authors = $this->queryBus->ask(
-            new ListAuthorsQuery(
-                $this->request->getQueryParams()['page'] ?? 1,
-                $this->request->getQueryParams()['limit'] ?? 10,
-            )
-        );
+        $queryParams = $this->request->getQueryParams();
+
+        $authors = $this->queryBus->ask(new ListAuthorsQuery(
+            $queryParams['page'] ?? 1,
+            $queryParams['limit'] ?? 10,
+        ));
 
         $this->response->getBody()->write(json_encode([
             'authors' => $authors,
         ]));
 
-        $this->logger->info("Authors were viewed.", $this->request->getQueryParams());
+        $this->logger->info("Authors were viewed.", $queryParams);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

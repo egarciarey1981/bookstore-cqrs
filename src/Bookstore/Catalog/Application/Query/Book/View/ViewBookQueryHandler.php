@@ -23,15 +23,12 @@ class ViewBookQueryHandler implements QueryHandler
             throw new Exception('Invalid query');
         }
 
-        $book = $this->bookRepository->findById(
-            $query->bookId(),
-        );
+        $book = $this->bookRepository->findById($query->bookId());
 
         if (null === $book) {
-            throw new BookNotFoundException(
-                'Book not found.',
-                ['book_id' => $query->bookId()],
-            );
+            throw new BookNotFoundException('Book not found.', [
+                'book_id' => $query->bookId(),
+            ]);
         }
 
         return $book;

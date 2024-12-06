@@ -37,11 +37,9 @@ class CreateAuthorCommandHandler implements CommandHandler
 
         $this->authorRepository->save($author);
 
-        $this->eventBus->publish(
-            new AuthorCreatedEvent(
-                $author->authorId(),
-                $author->authorName(),
-            )
-        );
+        $this->eventBus->publish(new AuthorCreatedEvent(
+            $author->authorId(),
+            $author->authorName(),
+        ));
     }
 }

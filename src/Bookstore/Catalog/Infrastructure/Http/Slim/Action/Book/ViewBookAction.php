@@ -22,11 +22,9 @@ class ViewBookAction extends Action
 
     public function action(): Response
     {
-        $book = $this->queryBus->ask(
-            new ViewBookQuery(
-                $this->args['book_id']
-            )
-        );
+        $book = $this->queryBus->ask(new ViewBookQuery(
+            $this->args['book_id']
+        ));
 
         $this->response->getBody()->write(json_encode([
             'book' => $book,

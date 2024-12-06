@@ -14,7 +14,10 @@ return function (ContainerBuilder $containerBuilder) {
         CommandBus::class => function (ContainerInterface $c) {
             $commandBus = new InMemoryCommandBus();
 
+            // Author
             $commandBus->registerHandler(CreateAuthorCommand::class, $c->get(CreateAuthorCommandHandler::class));
+
+            // Book
             $commandBus->registerHandler(CreateBookCommand::class, $c->get(CreateBookCommandHandler::class));
 
             return $commandBus;

@@ -12,8 +12,11 @@ use DI\ContainerBuilder;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
+        // Author
         AuthorQueryRepository::class => \DI\autowire(InMemoryAuthorQueryRepository::class),
         AuthorCommandRepository::class => \DI\autowire(InMemoryAuthorCommandRepository::class),
+
+        // Book
         BookQueryRepository::class => \DI\autowire(InMemoryBookQueryRepository::class),
         BookCommandRepository::class => \DI\autowire(InMemoryBookCommandRepository::class),
     ]);

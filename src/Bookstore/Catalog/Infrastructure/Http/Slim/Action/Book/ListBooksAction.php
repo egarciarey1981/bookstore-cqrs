@@ -22,18 +22,18 @@ class ListBooksAction extends Action
 
     public function action(): Response
     {
-        $books = $this->queryBus->ask(
-            new ListBooksQuery(
-                $this->request->getQueryParams()['page'] ?? 1,
-                $this->request->getQueryParams()['limit'] ?? 10,
-            )
-        );
+        $queryParams = $this->request->getQueryParams();
+
+        $books = $this->queryBus->ask(new ListBooksQuery(
+            $queryParams['page'] ?? 1,
+            $queryParams['limit'] ?? 10,
+        ));
 
         $this->response->getBody()->write(json_encode([
             'books' => $books,
         ]));
 
-        $this->logger->info("Books were viewed.", $this->args);
+        $this->logger->info("Books were viewed.", $queryParams);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

@@ -26,11 +26,9 @@ class CreateAuthorAction extends Action
         $formData = $this->request->getParsedBody();
         $this->validateFormData($formData);
 
-        $this->commandBus->dispatch(
-            new CreateAuthorCommand(
-                $formData['author_name'],
-            )
-        );
+        $this->commandBus->dispatch(new CreateAuthorCommand(
+            $formData['author_name'],
+        ));
 
         $this->logger->info("Author was created.", $formData);
 
@@ -42,13 +40,10 @@ class CreateAuthorAction extends Action
     private function validateFormData(array $formData): void
     {
         if (!isset($formData['author_name'])) {
-            throw new InvalidDataException(
-                'Field `author_name` is required',
-                [
-                    'class' => __CLASS__,
-                    'payload' => $formData,
-                ],
-            );
+            throw new InvalidDataException('Field `author_name` is required', [
+                'class' => __CLASS__,
+                'payload' => $formData,
+            ]);
         }
     }
 }

@@ -22,11 +22,9 @@ class ViewAuthorAction extends Action
 
     public function action(): Response
     {
-        $author = $this->queryBus->ask(
-            new ViewAuthorQuery(
-                $this->args['author_id']
-            )
-        );
+        $author = $this->queryBus->ask(new ViewAuthorQuery(
+            $this->args['author_id'],
+        ));
 
         $this->response->getBody()->write(json_encode([
             'author' => $author,

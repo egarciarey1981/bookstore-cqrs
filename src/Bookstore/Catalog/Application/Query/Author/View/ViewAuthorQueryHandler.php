@@ -23,15 +23,12 @@ class ViewAuthorQueryHandler implements QueryHandler
             throw new Exception('Invalid query.');
         }
 
-        $author = $this->authorRepository->findById(
-            $query->authorId(),
-        );
+        $author = $this->authorRepository->findById($query->authorId());
 
         if (null === $author) {
-            throw new AuthorNotFoundException(
-                'Author not found.',
-                ['author_id' => $query->authorId()],
-            );
+            throw new AuthorNotFoundException('Author not found.', [
+                'author_id' => $query->authorId(),
+            ]);
         }
 
         return $author;
