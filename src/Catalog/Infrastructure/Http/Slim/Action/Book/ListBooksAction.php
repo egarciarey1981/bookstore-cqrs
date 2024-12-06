@@ -27,6 +27,8 @@ class ListBooksAction extends Action
         $books = $this->queryBus->ask(new ListBooksQuery(
             $queryParams['page'] ?? 1,
             $queryParams['limit'] ?? 10,
+            $queryParams['sort'] ?? 'book_title',
+            $queryParams['order'] ?? 'asc',
         ));
 
         $this->response->getBody()->write(json_encode([

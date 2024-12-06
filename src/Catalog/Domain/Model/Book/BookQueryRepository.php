@@ -4,7 +4,7 @@ namespace Catalog\Domain\Model\Book;
 
 interface BookQueryRepository
 {
-    public function findAll(int $page, int $limit): array;
+    public function findAll(int $page, int $limit, string $sort, string $order): array;
 
     public function findById(string $bookId): ?array;
 

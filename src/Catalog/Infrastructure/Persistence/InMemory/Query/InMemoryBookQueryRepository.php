@@ -4,6 +4,7 @@ namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Catalog\Domain\Model\Book\BookQueryRepository;
 use Psr\Log\LoggerInterface;
+use Shared\Domain\Exception\InvalidDataException;
 
 class InMemoryBookQueryRepository implements BookQueryRepository
 {
@@ -25,15 +26,27 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         }
     }
 
-    public function findAll(int $page, int $limit): array
+    public function findAll(int $page, int $limit, string $sort, string $order): array
     {
-        return array_values(
-            array_slice(
-                $this->books,
-                ($page - 1) * $limit,
-                $limit,
-            )
-        );
+        $books = array_values($this->books);
+
+        if (!in_array($sort, array_keys($books[0]))) {
+            throw new InvalidDataException('Invalid sort field', [
+                'class' => self::class,
+                'page' => $page,
+                'limit' => $limit,
+                'sort' => $sort,
+                'order' => $order,
+            ]);
+        }
+
+        usort($books, function ($a, $b) use ($sort, $order) {
+            return 'asc' === $order
+                ? $a[$sort] <=> $b[$sort]
+                : $b[$sort] <=> $a[$sort];
+        });
+
+        return array_slice($books, ($page - 1) * $limit, $limit);
     }
 
     public function findById(string $bookId): ?array

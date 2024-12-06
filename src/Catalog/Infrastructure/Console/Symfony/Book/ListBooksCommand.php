@@ -1,8 +1,8 @@
 <?php
 
-namespace Catalog\Infrastructure\Console\Symfony\Author;
+namespace Catalog\Infrastructure\Console\Symfony\Book;
 
-use Catalog\Application\Query\Author\List\ListAuthorsQuery;
+use Catalog\Application\Query\Book\List\ListBooksQuery;
 use Exception;
 use Shared\Application\Query\QueryBus;
 use Symfony\Component\Console\Helper\Table;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListAuthorsCommand extends Command
+class ListBooksCommand extends Command
 {
     private QueryBus $queryBus;
 
@@ -24,19 +24,19 @@ class ListAuthorsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('author:list')
-            ->setDescription('List authors')
+            ->setName('book:list')
+            ->setDescription('List books')
             ->addArgument('page', InputArgument::OPTIONAL, 'Page', 1)
             ->addArgument('limit', InputArgument::OPTIONAL, 'Limit', 10)
-            ->addArgument('sort', InputArgument::OPTIONAL, 'Sort', 'author_name')
+            ->addArgument('sort', InputArgument::OPTIONAL, 'Sort', 'book_title')
             ->addArgument('order', InputArgument::OPTIONAL, 'Order', 'asc');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $authors = $this->queryBus->ask(
-                new ListAuthorsQuery(
+            $books = $this->queryBus->ask(
+                new ListBooksQuery(
                     $input->getArgument('page'),
                     $input->getArgument('limit'),
                     $input->getArgument('sort'),
@@ -50,14 +50,14 @@ class ListAuthorsCommand extends Command
 
         $table = new Table($output);
 
-        $headers = array_keys($authors[0]);
+        $headers = array_keys($books[0]);
 
         $table->setHeaders($headers);
 
-        foreach ($authors as $author) {
+        foreach ($books as $book) {
             $row = [];
             foreach ($headers as $header) {
-                $row[] = $author[$header];
+                $row[] = $book[$header];
             }
             $table->addRow($row);
         }

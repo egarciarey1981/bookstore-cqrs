@@ -25,6 +25,8 @@ class ListBooksQueryHandler implements QueryHandler
         return $this->bookRepository->findAll(
             $query->page(),
             $query->limit(),
+            $query->sort(),
+            $query->order(),
         );
     }
 }
