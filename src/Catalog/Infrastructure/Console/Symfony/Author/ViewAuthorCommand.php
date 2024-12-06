@@ -38,7 +38,7 @@ class ViewAuthorCommand extends Command
                 )
             );
         } catch (AuthorNotFoundException $exception) {
-            $output->writeln("<error>{$exception->getMessage()}</error>");
+            $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
             return Command::FAILURE;
         }
 
@@ -48,7 +48,9 @@ class ViewAuthorCommand extends Command
             $table->addRow([$k, $v]);
         }
 
+        $output->writeln("");
         $table->render();
+        $output->writeln("");
 
         return Command::SUCCESS;
     }

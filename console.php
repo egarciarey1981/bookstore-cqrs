@@ -4,6 +4,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Catalog\Infrastructure\Console\Symfony\Author\ViewAuthorCommand;
+use Catalog\Infrastructure\Console\Symfony\Book\ViewBookCommand;
 use DI\ContainerBuilder;
 use Symfony\Component\Console\Application;
 
@@ -34,7 +35,10 @@ $container = $containerBuilder->build();
 // Instantiate the app
 $app = new Application();
 
-// Agrega los comandos a la aplicación
+// Author
 $app->add($container->get(ViewAuthorCommand::class));
+
+// Book
+$app->add($container->get(ViewBookCommand::class));
 
 $app->run();
