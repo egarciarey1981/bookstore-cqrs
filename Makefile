@@ -1,31 +1,6 @@
-up: ## Start the docker containers
-	docker compose up -d
+.DEFAULT_GOAL := help
 
-down: ## Stop the docker containers
-	docker compose down
+help:
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
-restart: down up ## Restart the docker containers
-
-logs: ## Show the logs of the containers
-	docker compose logs -f
-
-composer-install: ## Install the composer dependencies
-	docker compose exec app composer install
-
-composer-update: ## Update the composer dependencies
-	docker compose exec app composer update
-
-composer-require: ## Add a new composer dependency
-	docker compose exec app composer require $(package)
-
-composer-require-dev: ## Add a new composer dependency as a dev dependency
-	docker compose exec app composer require --dev $(package)
-
-phpstan: ## Run the phpstan static analysis
-	docker compose exec app ./vendor/bin/phpstan analyse src
-
-phpcs: ## Run the phpcs code sniffer
-	docker compose exec app ./vendor/bin/phpcs --standard=PSR12 src
-
-phpcbf: ## Run the phpcbf code fixer
-	docker compose exec app ./vendor/bin/phpcbf --standard=PSR12 src
+include makefiles/*.mk
