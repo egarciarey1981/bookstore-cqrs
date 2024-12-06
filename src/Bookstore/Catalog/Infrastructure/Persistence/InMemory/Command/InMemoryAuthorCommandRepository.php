@@ -15,7 +15,6 @@ class InMemoryAuthorCommandRepository implements AuthorCommandRepository
     private array $authors = [];
 
     /**
-     * @param LoggerInterface $logger
      * @param Author[]|null $authors
      */
     public function __construct(
@@ -52,7 +51,7 @@ class InMemoryAuthorCommandRepository implements AuthorCommandRepository
     {
         $this->logger->debug(
             'InMemoryAuthorCommandRepository::save',
-            AuthorToArrayTransformer::transform($author)
+            AuthorToArrayTransformer::transform($author),
         );
         $this->authors[$author->authorId()->value()] = $author;
     }

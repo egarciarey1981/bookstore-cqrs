@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\CreateAuthorAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\CreateBookAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ListBooksAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ViewBookAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -30,6 +31,7 @@ return function (App $app) {
             $group->get('/{author_id}', ViewAuthorAction::class);
         });
         $group->group('/books', function (Group $group) {
+            $group->post('', CreateBookAction::class);
             $group->get('', ListBooksAction::class);
             $group->get('/{book_id}', ViewBookAction::class);
         });

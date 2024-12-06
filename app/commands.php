@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommand;
 use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
+use Bookstore\Catalog\Application\Command\Book\Create\CreateBookCommand;
+use Bookstore\Catalog\Application\Command\Book\Create\CreateBookCommandHandler;
 use Bookstore\Catalog\Infrastructure\Bus\InMemory\InMemoryCommandBus;
 use Bookstore\Shared\Application\Command\CommandBus;
 use DI\ContainerBuilder;
@@ -15,6 +17,7 @@ return function (ContainerBuilder $containerBuilder) {
             $commandBus = new InMemoryCommandBus();
 
             $commandBus->registerHandler(CreateAuthorCommand::class, $c->get(CreateAuthorCommandHandler::class));
+            $commandBus->registerHandler(CreateBookCommand::class, $c->get(CreateBookCommandHandler::class));
 
             return $commandBus;
         },

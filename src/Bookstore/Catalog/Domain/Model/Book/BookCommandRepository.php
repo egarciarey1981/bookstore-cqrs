@@ -6,6 +6,8 @@ use Bookstore\Shared\Domain\Model\Book\BookId;
 
 interface BookCommandRepository
 {
+    public function nextIdentity(): BookId;
+
     public function findAll(): array;
 
     public function findById(BookId $bookId): ?Book;
