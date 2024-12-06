@@ -4,6 +4,7 @@ namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Psr\Log\LoggerInterface;
+use Shared\Domain\Exception\InvalidDataException;
 
 class InMemoryAuthorQueryRepository implements AuthorQueryRepository
 {
@@ -25,15 +26,27 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
         }
     }
 
-    public function findAll(int $page, int $limit): array
+    public function findAll(int $page, int $limit, string $sort, string $order): array
     {
-        return array_values(
-            array_slice(
-                $this->authors,
-                ($page - 1) * $limit,
-                $limit,
-            )
-        );
+        $authors = array_values($this->authors);
+
+        if (!in_array($sort, array_keys($authors[0]))) {
+            throw new InvalidDataException('Invalid sort field', [
+                'class' => self::class,
+                'page' => $page,
+                'limit' => $limit,
+                'sort' => $sort,
+                'order' => $order,
+            ]);
+        }
+
+        usort($authors, function ($a, $b) use ($sort, $order) {
+            return 'asc' === $order
+                ? $a[$sort] <=> $b[$sort]
+                : $b[$sort] <=> $a[$sort];
+        });
+
+        return array_slice($authors, ($page - 1) * $limit, $limit);
     }
 
     public function findById(string $authorId): ?array

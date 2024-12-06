@@ -3,6 +3,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Catalog\Infrastructure\Console\Symfony\Author\ListAuthorsCommand;
 use Catalog\Infrastructure\Console\Symfony\Author\ViewAuthorCommand;
 use Catalog\Infrastructure\Console\Symfony\Book\ViewBookCommand;
 use DI\ContainerBuilder;
@@ -37,6 +38,7 @@ $app = new Application();
 
 // Author
 $app->add($container->get(ViewAuthorCommand::class));
+$app->add($container->get(ListAuthorsCommand::class));
 
 // Book
 $app->add($container->get(ViewBookCommand::class));

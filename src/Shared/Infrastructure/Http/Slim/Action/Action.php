@@ -54,7 +54,6 @@ abstract class Action
             $context = $t->getContext();
             $status = 404;
         } else {
-            throw $t;
             $message = 'Internal Server Error';
             $status = 500;
         }

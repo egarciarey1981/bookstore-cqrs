@@ -27,6 +27,8 @@ class ListAuthorsAction extends Action
         $authors = $this->queryBus->ask(new ListAuthorsQuery(
             $queryParams['page'] ?? 1,
             $queryParams['limit'] ?? 10,
+            $queryParams['sort'] ?? 'author_name',
+            $queryParams['order'] ?? 'asc',
         ));
 
         $this->response->getBody()->write(json_encode([

@@ -3,7 +3,7 @@
 namespace Catalog\Infrastructure\Console\Symfony\Book;
 
 use Catalog\Application\Query\Book\View\ViewBookQuery;
-use Catalog\Domain\Model\Book\BookNotFoundException;
+use Exception;
 use Shared\Application\Query\QueryBus;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
@@ -37,7 +37,7 @@ class ViewBookCommand extends Command
                     $input->getArgument('book_id'),
                 )
             );
-        } catch (BookNotFoundException $exception) {
+        } catch (Exception $exception) {
             $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
             return Command::FAILURE;
         }

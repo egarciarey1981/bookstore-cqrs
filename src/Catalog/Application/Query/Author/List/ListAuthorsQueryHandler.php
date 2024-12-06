@@ -25,6 +25,8 @@ class ListAuthorsQueryHandler implements QueryHandler
         return $this->authorRepository->findAll(
             $query->page(),
             $query->limit(),
+            $query->sort(),
+            $query->order()
         );
     }
 }

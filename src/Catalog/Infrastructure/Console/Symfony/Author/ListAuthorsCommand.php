@@ -2,7 +2,7 @@
 
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
-use Catalog\Application\Query\Author\View\ViewAuthorQuery;
+use Catalog\Application\Query\Author\List\ListAuthorsQuery;
 use Exception;
 use Shared\Application\Query\QueryBus;
 use Symfony\Component\Console\Helper\Table;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ViewAuthorCommand extends Command
+class ListAuthorsCommand extends Command
 {
     private QueryBus $queryBus;
 
@@ -24,17 +24,23 @@ class ViewAuthorCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('author:view')
-            ->setDescription('View a author by ID')
-            ->addArgument('author_id', InputArgument::REQUIRED, 'The author ID');
+            ->setName('author:list')
+            ->setDescription('List authors')
+            ->addArgument('page', InputArgument::OPTIONAL, 'Page', 1)
+            ->addArgument('limit', InputArgument::OPTIONAL, 'Limit', 10)
+            ->addArgument('sort', InputArgument::OPTIONAL, 'Sort', 'author_name')
+            ->addArgument('order', InputArgument::OPTIONAL, 'Order', 'asc');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $author = $this->queryBus->ask(
-                new ViewAuthorQuery(
-                    $input->getArgument('author_id'),
+            $authors = $this->queryBus->ask(
+                new ListAuthorsQuery(
+                    $input->getArgument('page'),
+                    $input->getArgument('limit'),
+                    $input->getArgument('sort'),
+                    $input->getArgument('order'),
                 )
             );
         } catch (Exception $exception) {
@@ -44,8 +50,13 @@ class ViewAuthorCommand extends Command
 
         $table = new Table($output);
 
-        foreach ($author as $k => $v) {
-            $table->addRow([$k, $v]);
+        $table->setHeaders(['author_id', 'author_name']);
+
+        foreach ($authors as $author) {
+            $table->addRow([
+                $author['author_id'],
+                $author['author_name'],
+            ]);
         }
 
         $output->writeln("");
