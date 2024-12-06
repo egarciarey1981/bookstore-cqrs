@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\CreateAuthorAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ListBooksAction;
@@ -24,6 +25,7 @@ return function (App $app) {
 
     $app->group('/catalog', function (Group $group) {
         $group->group('/authors', function (Group $group) {
+            $group->post('', CreateAuthorAction::class);
             $group->get('', ListAuthorsAction::class);
             $group->get('/{author_id}', ViewAuthorAction::class);
         });

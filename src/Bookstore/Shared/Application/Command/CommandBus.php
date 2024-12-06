@@ -2,7 +2,7 @@
 
 namespace Bookstore\Shared\Application\Command;
 
-interface BusCommand
+interface CommandBus
 {
     public function dispatch(Command $command): void;
 }

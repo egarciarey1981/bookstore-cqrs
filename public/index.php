@@ -20,12 +20,19 @@ $repositories($containerBuilder);
 $queries = require __DIR__ . '/../app/queries.php';
 $queries($containerBuilder);
 
+// Set up commands
+$commands = require __DIR__ . '/../app/commands.php';
+$commands($containerBuilder);
+
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
 // Instantiate the app
 AppFactory::setContainer($container);
 $app = AppFactory::create();
+
+// Add Body Parsing Middleware
+$app->addBodyParsingMiddleware();
 
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';

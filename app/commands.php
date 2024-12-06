@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommand;
+use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
+use Bookstore\Catalog\Infrastructure\Bus\InMemory\InMemoryCommandBus;
+use Bookstore\Shared\Application\Command\CommandBus;
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
+
+return function (ContainerBuilder $containerBuilder) {
+    $containerBuilder->addDefinitions([
+        CommandBus::class => function (ContainerInterface $c) {
+            $commandBus = new InMemoryCommandBus();
+
+            $commandBus->registerHandler(CreateAuthorCommand::class, $c->get(CreateAuthorCommandHandler::class));
+
+            return $commandBus;
+        },
+    ]);
+};
