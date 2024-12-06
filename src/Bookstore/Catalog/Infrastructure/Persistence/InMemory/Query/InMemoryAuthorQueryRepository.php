@@ -3,13 +3,19 @@
 namespace Bookstore\Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Bookstore\Catalog\Domain\Model\Author\AuthorQueryRepository;
+use Psr\Log\LoggerInterface;
 
 class InMemoryAuthorQueryRepository implements AuthorQueryRepository
 {
+    private LoggerInterface $logger;
     private array $authors = [];
 
-    public function __construct(array $authors = null)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        array $authors = null,
+    ) {
+        $this->logger = $logger;
+
         if (null === $authors) {
             $authors = $this->defaultAuthors();
         }
@@ -38,6 +44,10 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
     public function save(array $author): void
     {
         $this->authors[$author['author_id']] = $author;
+        $this->logger->debug(
+            'InMemoryAuthorQueryRepository::save',
+            $author,
+        );
     }
 
     public function delete(string $authorId): void

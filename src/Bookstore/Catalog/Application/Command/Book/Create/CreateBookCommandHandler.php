@@ -10,7 +10,7 @@ use Bookstore\Shared\Application\Command\CommandHandler;
 use Bookstore\Shared\Domain\Exception\InvalidDataException;
 use Bookstore\Shared\Domain\Model\Author\AuthorId;
 use Bookstore\Shared\Domain\Model\Book\BookTitle;
-use InvalidArgumentException;
+use Exception;
 
 class CreateBookCommandHandler implements CommandHandler
 {
@@ -28,7 +28,7 @@ class CreateBookCommandHandler implements CommandHandler
     public function handle(Command $command): void
     {
         if (!$command instanceof CreateBookCommand) {
-            throw new InvalidArgumentException('Invalid command');
+            throw new Exception('Invalid command');
         }
 
         $author = $this->authorCommandRepository->findById(

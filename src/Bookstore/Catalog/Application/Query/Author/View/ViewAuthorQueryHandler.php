@@ -6,7 +6,7 @@ use Bookstore\Catalog\Domain\Model\Author\AuthorNotFoundException;
 use Bookstore\Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Bookstore\Shared\Application\Query\Query;
 use Bookstore\Shared\Application\Query\QueryHandler;
-use InvalidArgumentException;
+use Exception;
 
 class ViewAuthorQueryHandler implements QueryHandler
 {
@@ -20,7 +20,7 @@ class ViewAuthorQueryHandler implements QueryHandler
     public function handle(Query $query): array
     {
         if (!$query instanceof ViewAuthorQuery) {
-            throw new InvalidArgumentException('Invalid query.');
+            throw new Exception('Invalid query.');
         }
 
         $author = $this->authorRepository->findById(

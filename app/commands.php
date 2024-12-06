@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommand;
 use Bookstore\Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
 use Bookstore\Catalog\Application\Command\Book\Create\CreateBookCommand;

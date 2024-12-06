@@ -6,7 +6,7 @@ use Bookstore\Catalog\Domain\Model\Book\BookNotFoundException;
 use Bookstore\Catalog\Domain\Model\Book\BookQueryRepository;
 use Bookstore\Shared\Application\Query\Query;
 use Bookstore\Shared\Application\Query\QueryHandler;
-use InvalidArgumentException;
+use Exception;
 
 class ViewBookQueryHandler implements QueryHandler
 {
@@ -20,7 +20,7 @@ class ViewBookQueryHandler implements QueryHandler
     public function handle(Query $query): array
     {
         if (!$query instanceof ViewBookQuery) {
-            throw new InvalidArgumentException('Invalid query');
+            throw new Exception('Invalid query');
         }
 
         $book = $this->bookRepository->findById(

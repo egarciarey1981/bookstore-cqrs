@@ -52,11 +52,11 @@ class InMemoryBookCommandRepository implements BookCommandRepository
 
     public function save(Book $book): void
     {
+        $this->books[$book->bookId()->value()] = $book;
         $this->logger->debug(
             'InMemoryBookCommandRepository::save',
             BookToArrayTransformer::transform($book),
         );
-        $this->books[$book->bookId()->value()] = $book;
     }
 
     public function delete(Book $book): void

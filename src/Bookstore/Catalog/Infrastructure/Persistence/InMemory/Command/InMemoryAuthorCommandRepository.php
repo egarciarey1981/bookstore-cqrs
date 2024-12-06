@@ -49,11 +49,11 @@ class InMemoryAuthorCommandRepository implements AuthorCommandRepository
 
     public function save(Author $author): void
     {
+        $this->authors[$author->authorId()->value()] = $author;
         $this->logger->debug(
             'InMemoryAuthorCommandRepository::save',
             AuthorToArrayTransformer::transform($author),
         );
-        $this->authors[$author->authorId()->value()] = $author;
     }
 
     public function delete(Author $author): void

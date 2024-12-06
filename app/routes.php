@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\CreateAuthorAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
 use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;

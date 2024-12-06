@@ -5,7 +5,7 @@ namespace Bookstore\Catalog\Application\Query\Book\List;
 use Bookstore\Catalog\Domain\Model\Book\BookQueryRepository;
 use Bookstore\Shared\Application\Query\Query;
 use Bookstore\Shared\Application\Query\QueryHandler;
-use InvalidArgumentException;
+use Exception;
 
 class ListBooksQueryHandler implements QueryHandler
 {
@@ -19,7 +19,7 @@ class ListBooksQueryHandler implements QueryHandler
     public function handle(Query $query): array
     {
         if (!$query instanceof ListBooksQuery) {
-            throw new InvalidArgumentException('Invalid query');
+            throw new Exception('Invalid query');
         }
 
         return $this->bookRepository->findAll(

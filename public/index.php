@@ -16,13 +16,17 @@ $dependencies($containerBuilder);
 $repositories = require __DIR__ . '/../app/repositories.php';
 $repositories($containerBuilder);
 
-// Set up queries
+// Set up query handlers
 $queries = require __DIR__ . '/../app/queries.php';
 $queries($containerBuilder);
 
-// Set up commands
+// Set up command handlers
 $commands = require __DIR__ . '/../app/commands.php';
 $commands($containerBuilder);
+
+// Set up event handlers
+$eventHandlers = require __DIR__ . '/../app/events.php';
+$eventHandlers($containerBuilder);
 
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();

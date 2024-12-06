@@ -3,13 +3,19 @@
 namespace Bookstore\Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Bookstore\Catalog\Domain\Model\Book\BookQueryRepository;
+use Psr\Log\LoggerInterface;
 
 class InMemoryBookQueryRepository implements BookQueryRepository
 {
+    private LoggerInterface $logger;
     private array $books = [];
 
-    public function __construct(array $books = null)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        array $books = null,
+    ) {
+        $this->logger = $logger;
+
         if (null === $books) {
             $books = $this->defaultBooks();
         }
@@ -38,6 +44,10 @@ class InMemoryBookQueryRepository implements BookQueryRepository
     public function save(array $book): void
     {
         $this->books[$book['book_id']] = $book;
+        $this->logger->debug(
+            'InMemoryBookQueryRepository::save',
+            $book,
+        );
     }
 
     public function delete(string $bookId): void

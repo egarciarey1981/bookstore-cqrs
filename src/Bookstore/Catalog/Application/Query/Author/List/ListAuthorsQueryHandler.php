@@ -5,7 +5,7 @@ namespace Bookstore\Catalog\Application\Query\Author\List;
 use Bookstore\Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Bookstore\Shared\Application\Query\Query;
 use Bookstore\Shared\Application\Query\QueryHandler;
-use InvalidArgumentException;
+use Exception;
 
 class ListAuthorsQueryHandler implements QueryHandler
 {
@@ -19,7 +19,7 @@ class ListAuthorsQueryHandler implements QueryHandler
     public function handle(Query $query): array
     {
         if (!$query instanceof ListAuthorsQuery) {
-            throw new InvalidArgumentException('Invalid query');
+            throw new Exception('Invalid query');
         }
 
         return $this->authorRepository->findAll(

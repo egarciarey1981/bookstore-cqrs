@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Bookstore\Catalog\Application\Query\Author\List\ListAuthorsQuery;
 use Bookstore\Catalog\Application\Query\Author\List\ListAuthorsQueryHandler;
 use Bookstore\Catalog\Application\Query\Author\View\ViewAuthorQuery;

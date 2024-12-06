@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Bookstore\Catalog\Domain\Model\Author\AuthorCommandRepository;
 use Bookstore\Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Bookstore\Catalog\Domain\Model\Book\BookCommandRepository;
