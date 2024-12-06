@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ListAuthorsAction;
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Author\ViewAuthorAction;
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ListBooksAction;
+use Bookstore\Catalog\Infrastructure\Http\Slim\Action\Book\ViewBookAction;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+
+return function (App $app) {
+    $app->options('/{routes:.*}', function (Request $request, Response $response) {
+        // CORS Pre-Flight OPTIONS Request Handler
+        return $response;
+    });
+
+    $app->get('/', function (Request $request, Response $response) {
+        $response->getBody()->write('Hello world!');
+        return $response;
+    });
+
+    $app->group('/catalog', function (Group $group) {
+        $group->group('/authors', function (Group $group) {
+            $group->get('', ListAuthorsAction::class);
+            $group->get('/{author_id}', ViewAuthorAction::class);
+        });
+        $group->group('/books', function (Group $group) {
+            $group->get('', ListBooksAction::class);
+            $group->get('/{book_id}', ViewBookAction::class);
+        });
+    });
+};
