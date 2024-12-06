@@ -7,8 +7,8 @@ use Exception;
 use Shared\Application\Query\QueryBus;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListAuthorsCommand extends Command
@@ -26,10 +26,10 @@ class ListAuthorsCommand extends Command
         $this
             ->setName('author:list')
             ->setDescription('List authors')
-            ->addArgument('page', InputArgument::OPTIONAL, 'Page', 1)
-            ->addArgument('limit', InputArgument::OPTIONAL, 'Limit', 10)
-            ->addArgument('sort', InputArgument::OPTIONAL, 'Sort', 'author_name')
-            ->addArgument('order', InputArgument::OPTIONAL, 'Order', 'asc');
+            ->addOption('page', null, InputOption::VALUE_OPTIONAL, 'Page', 1)
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit', 10)
+            ->addOption('sort', null, InputOption::VALUE_OPTIONAL, 'Sort', 'book_title')
+            ->addOption('order', null, InputOption::VALUE_OPTIONAL, 'Order', 'asc');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -37,10 +37,10 @@ class ListAuthorsCommand extends Command
         try {
             $authors = $this->queryBus->ask(
                 new ListAuthorsQuery(
-                    $input->getArgument('page'),
-                    $input->getArgument('limit'),
-                    $input->getArgument('sort'),
-                    $input->getArgument('order'),
+                    $input->getOption('page'),
+                    $input->getOption('limit'),
+                    $input->getOption('sort'),
+                    $input->getOption('order'),
                 )
             );
         } catch (Exception $exception) {

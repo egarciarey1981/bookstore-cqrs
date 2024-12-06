@@ -7,8 +7,8 @@ use Exception;
 use Shared\Application\Query\QueryBus;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListBooksCommand extends Command
@@ -26,10 +26,10 @@ class ListBooksCommand extends Command
         $this
             ->setName('book:list')
             ->setDescription('List books')
-            ->addArgument('page', InputArgument::OPTIONAL, 'Page', 1)
-            ->addArgument('limit', InputArgument::OPTIONAL, 'Limit', 10)
-            ->addArgument('sort', InputArgument::OPTIONAL, 'Sort', 'book_title')
-            ->addArgument('order', InputArgument::OPTIONAL, 'Order', 'asc');
+            ->addOption('page', null, InputOption::VALUE_OPTIONAL, 'Page', 1)
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit', 10)
+            ->addOption('sort', null, InputOption::VALUE_OPTIONAL, 'Sort', 'book_title')
+            ->addOption('order', null, InputOption::VALUE_OPTIONAL, 'Order', 'asc');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -37,15 +37,20 @@ class ListBooksCommand extends Command
         try {
             $books = $this->queryBus->ask(
                 new ListBooksQuery(
-                    $input->getArgument('page'),
-                    $input->getArgument('limit'),
-                    $input->getArgument('sort'),
-                    $input->getArgument('order'),
+                    $input->getOption('page'),
+                    $input->getOption('limit'),
+                    $input->getOption('sort'),
+                    $input->getOption('order'),
                 )
             );
         } catch (Exception $exception) {
             $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
             return Command::FAILURE;
+        }
+
+        if (empty($books)) {
+            $output->writeln("\n<error> No books found </error>\n");
+            return Command::SUCCESS;
         }
 
         $table = new Table($output);
