@@ -6,6 +6,9 @@ use Catalog\Domain\Model\Author\Author;
 
 class AuthorToArrayTransformer
 {
+    /**
+     * @return array<string,mixed>
+     */
     public static function transform(Author $author): array
     {
         return [

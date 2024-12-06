@@ -4,7 +4,7 @@ namespace Shared\Domain\Model\Book;
 
 class BookId
 {
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

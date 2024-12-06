@@ -6,6 +6,9 @@ use Catalog\Domain\Model\Book\Book;
 
 class BookToArrayTransformer
 {
+    /**
+     * @return array<string,mixed>
+     */
     public static function transform(Book $book): array
     {
         return [

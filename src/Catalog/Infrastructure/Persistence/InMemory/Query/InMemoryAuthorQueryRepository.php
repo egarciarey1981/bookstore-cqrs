@@ -9,8 +9,15 @@ use Shared\Domain\Exception\InvalidDataException;
 class InMemoryAuthorQueryRepository implements AuthorQueryRepository
 {
     private LoggerInterface $logger;
+
+    /**
+     * @var array<array<string,mixed>>
+     */
     private array $authors = [];
 
+    /**
+     * @param array<array<string,mixed>>|null $authors
+     */
     public function __construct(
         LoggerInterface $logger,
         array $authors = null,
@@ -68,6 +75,9 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
         unset($this->authors[$authorId]);
     }
 
+    /**
+     * @return array<array<string,mixed>>
+     */
     private function defaultAuthors(): array
     {
         return [

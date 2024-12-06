@@ -9,6 +9,9 @@ use InvalidArgumentException;
 
 class InMemoryCommandBus implements CommandBus
 {
+    /**
+     * @var array<string,CommandHandler>
+     */
     private array $handlers = [];
 
     public function registerHandler(string $commandClass, CommandHandler $handler): void

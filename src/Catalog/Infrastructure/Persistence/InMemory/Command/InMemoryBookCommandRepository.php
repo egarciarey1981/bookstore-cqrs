@@ -15,6 +15,10 @@ use Psr\Log\LoggerInterface;
 class InMemoryBookCommandRepository implements BookCommandRepository
 {
     private LoggerInterface $logger;
+
+    /**
+     * @var Book[]
+     */
     private array $books = [];
 
     /**
@@ -64,6 +68,9 @@ class InMemoryBookCommandRepository implements BookCommandRepository
         unset($this->books[$book->bookId()->value()]);
     }
 
+    /**
+     * @return Book[]
+     */
     public function defaultBooks(): array
     {
         $data = [

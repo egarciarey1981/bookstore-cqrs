@@ -9,8 +9,15 @@ use Shared\Domain\Exception\InvalidDataException;
 class InMemoryBookQueryRepository implements BookQueryRepository
 {
     private LoggerInterface $logger;
+
+    /**
+     * @var array<array<string,mixed>>
+     */
     private array $books = [];
 
+    /**
+     * @param array<array<string,mixed>>|null $books
+     */
     public function __construct(
         LoggerInterface $logger,
         array $books = null,
@@ -26,6 +33,9 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         }
     }
 
+    /**
+     * @return array<array<string,mixed>>
+     */
     public function findAll(int $page, int $limit, string $sort, string $order): array
     {
         $books = array_values($this->books);
@@ -49,11 +59,17 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         return array_slice($books, ($page - 1) * $limit, $limit);
     }
 
+    /**
+     * @return array<string,mixed>|null
+     */
     public function findById(string $bookId): ?array
     {
         return $this->books[$bookId] ?? null;
     }
 
+    /**
+     * @param array<string,mixed> $book
+     */
     public function save(array $book): void
     {
         $this->books[$book['book_id']] = $book;
@@ -68,6 +84,9 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         unset($this->books[$bookId]);
     }
 
+    /**
+     * @return array<array<string,mixed>>
+     */
     private function defaultBooks(): array
     {
         return [

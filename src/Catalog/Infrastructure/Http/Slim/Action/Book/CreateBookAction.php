@@ -38,6 +38,9 @@ class CreateBookAction extends Action
             ->withStatus(202);
     }
 
+    /**
+     * @param array<mixed> $formData
+     */
     private function validateFormData(array $formData): void
     {
         if (!isset($formData['book_title'])) {

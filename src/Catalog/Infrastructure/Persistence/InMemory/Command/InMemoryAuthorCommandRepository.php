@@ -12,6 +12,10 @@ use Psr\Log\LoggerInterface;
 class InMemoryAuthorCommandRepository implements AuthorCommandRepository
 {
     private LoggerInterface $logger;
+
+    /**
+     * @var Author[]
+     */
     private array $authors = [];
 
     /**

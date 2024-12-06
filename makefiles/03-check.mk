@@ -1,5 +1,5 @@
 phpstan: ## Run the phpstan static analysis
-	docker compose exec app ./vendor/bin/phpstan analyse src
+	docker compose exec app ./vendor/bin/phpstan analyse src --level=6
 
 phpcs: ## Run the phpcs code sniffer
 	docker compose exec app ./vendor/bin/phpcs --standard=PSR12 src

@@ -16,6 +16,9 @@ class ListAuthorsQueryHandler implements QueryHandler
         $this->authorRepository = $authorRepository;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function handle(Query $query): array
     {
         if (!$query instanceof ListAuthorsQuery) {

@@ -4,7 +4,6 @@ namespace Shared\Infrastructure\Http\Slim\Action;
 
 use Shared\Domain\Exception\InvalidDataException;
 use Shared\Domain\Exception\ResourceNotFoundException;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -15,6 +14,10 @@ abstract class Action
     protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
+
+    /**
+     * @var array<mixed>
+     */
     protected array $args;
 
     public function __construct(LoggerInterface $logger)
@@ -22,6 +25,9 @@ abstract class Action
         $this->logger = $logger;
     }
 
+    /**
+     * @param array<mixed> $args
+     */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $this->request = $request;

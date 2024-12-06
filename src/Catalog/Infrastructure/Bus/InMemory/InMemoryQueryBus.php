@@ -9,6 +9,9 @@ use InvalidArgumentException;
 
 class InMemoryQueryBus implements QueryBus
 {
+    /**
+     * @var array<string,QueryHandler>
+     */
     private array $handlers = [];
 
     public function registerHandler(string $queryClass, QueryHandler $handler): void

@@ -8,6 +8,9 @@ interface AuthorCommandRepository
 {
     public function nextIdentity(): AuthorId;
 
+    /**
+     * @return Author[]
+     */
     public function findAll(): array;
 
     public function findById(AuthorId $authorId): ?Author;

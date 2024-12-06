@@ -9,6 +9,9 @@ use Exception;
 
 final class InMemoryEventBus implements EventBus
 {
+    /**
+     * @var array<string,EventHandler[]>
+     */
     private array $listeners;
 
     public function subscribe(string $eventName, EventHandler $handler): void

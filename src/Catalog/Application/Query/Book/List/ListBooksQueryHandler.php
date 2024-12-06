@@ -16,6 +16,9 @@ class ListBooksQueryHandler implements QueryHandler
         $this->bookRepository = $bookRepository;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function handle(Query $query): array
     {
         if (!$query instanceof ListBooksQuery) {
