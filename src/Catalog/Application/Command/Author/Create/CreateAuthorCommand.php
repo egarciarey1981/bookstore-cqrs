@@ -8,8 +8,9 @@ class CreateAuthorCommand implements Command
 {
     private string $authorName;
 
-    public function __construct(string $authorName)
-    {
+    public function __construct(
+        string $authorName,
+    ) {
         $this->authorName = $authorName;
     }
 

@@ -25,7 +25,7 @@ class CreateAuthorAction extends Action
     {
         $formData = $this->request->getParsedBody();
         assert(is_array($formData));
-        
+
         $this->validateFormData($formData);
 
         $this->commandBus->dispatch(new CreateAuthorCommand(
@@ -34,9 +34,7 @@ class CreateAuthorAction extends Action
 
         $this->logger->info("Author was created.", $formData);
 
-        return $this->response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(202);
+        return $this->response->withStatus(202);
     }
 
     /**
