@@ -34,7 +34,7 @@ class CreateBookAction extends Action
 
         $this->logger->info("Book was created.", $formData);
 
-        return $this->response->withStatus(202);
+        return $this->response->withStatus(201);
     }
 
     /**

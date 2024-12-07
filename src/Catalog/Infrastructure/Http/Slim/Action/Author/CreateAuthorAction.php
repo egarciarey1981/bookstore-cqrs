@@ -34,7 +34,7 @@ class CreateAuthorAction extends Action
 
         $this->logger->info("Author was created.", $formData);
 
-        return $this->response->withStatus(202);
+        return $this->response->withStatus(201);
     }
 
     /**
