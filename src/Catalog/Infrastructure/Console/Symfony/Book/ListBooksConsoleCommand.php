@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListBooksCommand extends Command
+class ListBooksConsoleCommand extends Command
 {
     private QueryBus $queryBus;
 

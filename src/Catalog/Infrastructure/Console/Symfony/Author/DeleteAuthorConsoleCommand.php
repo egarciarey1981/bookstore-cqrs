@@ -2,38 +2,38 @@
 
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
-use Catalog\Application\Query\Author\View\ViewAuthorQuery;
+use Catalog\Application\Command\Author\Delete\DeleteAuthorCommand;
 use Exception;
-use Shared\Application\Query\QueryBus;
+use Shared\Application\Command\CommandBus;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ViewAuthorCommand extends Command
+class DeleteAuthorConsoleCommand extends Command
 {
-    private QueryBus $queryBus;
+    private CommandBus $commandBus;
 
-    public function __construct(QueryBus $queryBus)
+    public function __construct(CommandBus $commandBus)
     {
         parent::__construct();
-        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
     }
 
     protected function configure()
     {
         $this
-            ->setName('author:view')
-            ->setDescription('View a author by ID')
+            ->setName('author:delete')
+            ->setDescription('Delete a author by ID')
             ->addArgument('author_id', InputArgument::REQUIRED, 'The author ID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $author = $this->queryBus->ask(
-                new ViewAuthorQuery(
+             $this->commandBus->dispatch(
+                new DeleteAuthorCommand(
                     $input->getArgument('author_id'),
                 )
             );
@@ -42,15 +42,7 @@ class ViewAuthorCommand extends Command
             return Command::FAILURE;
         }
 
-        $table = new Table($output);
-
-        foreach ($author as $k => $v) {
-            $table->addRow([$k, $v]);
-        }
-
-        $output->writeln("");
-        $table->render();
-        $output->writeln("");
+        $output->writeln("\n<info> Author deleted </info>\n");
 
         return Command::SUCCESS;
     }

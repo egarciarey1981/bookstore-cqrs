@@ -22,9 +22,11 @@ class DeleteAuthorAction extends Action
 
     public function action(): Response
     {
-        $this->commandBus->dispatch(new DeleteAuthorCommand(
-            $this->args['author_id'],
-        ));
+        $this->commandBus->dispatch(
+            new DeleteAuthorCommand(
+                $this->args['author_id'],
+            )
+        );
 
         $this->logger->info("Author was deleted.", $this->args);
 
