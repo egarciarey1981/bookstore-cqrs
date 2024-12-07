@@ -73,6 +73,10 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
     public function delete(string $authorId): void
     {
         unset($this->authors[$authorId]);
+        $this->logger->debug(
+            'InMemoryAuthorQueryRepository::delete',
+            ['author_id' => $authorId],
+        );
     }
 
     /**

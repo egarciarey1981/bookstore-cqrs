@@ -17,5 +17,5 @@ interface AuthorCommandRepository
 
     public function save(Author $author): void;
 
-    public function delete(Author $author): void;
+    public function delete(AuthorId $authorId): void;
 }

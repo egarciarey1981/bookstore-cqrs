@@ -2,8 +2,12 @@
 
 use Catalog\Application\Command\Author\Create\CreateAuthorCommand;
 use Catalog\Application\Command\Author\Create\CreateAuthorCommandHandler;
+use Catalog\Application\Command\Author\Delete\DeleteAuthorCommand;
+use Catalog\Application\Command\Author\Delete\DeleteAuthorCommandHandler;
 use Catalog\Application\Command\Book\Create\CreateBookCommand;
 use Catalog\Application\Command\Book\Create\CreateBookCommandHandler;
+use Catalog\Application\Command\Book\Delete\DeleteBookCommand;
+use Catalog\Application\Command\Book\Delete\DeleteBookCommandHandler;
 use Catalog\Infrastructure\Bus\InMemory\InMemoryCommandBus;
 use Shared\Application\Command\CommandBus;
 use DI\ContainerBuilder;
@@ -16,9 +20,11 @@ return function (ContainerBuilder $containerBuilder) {
 
             // Author
             $commandBus->registerHandler(CreateAuthorCommand::class, $c->get(CreateAuthorCommandHandler::class));
-
+            $commandBus->registerHandler(DeleteAuthorCommand::class, $c->get(DeleteAuthorCommandHandler::class));
+            
             // Book
             $commandBus->registerHandler(CreateBookCommand::class, $c->get(CreateBookCommandHandler::class));
+            $commandBus->registerHandler(DeleteBookCommand::class, $c->get(DeleteBookCommandHandler::class));
 
             return $commandBus;
         },

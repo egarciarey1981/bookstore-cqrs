@@ -82,6 +82,10 @@ class InMemoryBookQueryRepository implements BookQueryRepository
     public function delete(string $bookId): void
     {
         unset($this->books[$bookId]);
+        $this->logger->debug(
+            'InMemoryBookQueryRepository::delete',
+            ['book_id' => $bookId],
+        );
     }
 
     /**

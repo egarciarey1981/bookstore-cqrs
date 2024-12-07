@@ -63,9 +63,13 @@ class InMemoryBookCommandRepository implements BookCommandRepository
         );
     }
 
-    public function delete(Book $book): void
+    public function delete(BookId $bookId): void
     {
-        unset($this->books[$book->bookId()->value()]);
+        unset($this->books[$bookId->value()]);
+        $this->logger->debug(
+            'InMemoryBookCommandRepository::delete',
+            ['book_id' => $bookId->value()],
+        );
     }
 
     /**

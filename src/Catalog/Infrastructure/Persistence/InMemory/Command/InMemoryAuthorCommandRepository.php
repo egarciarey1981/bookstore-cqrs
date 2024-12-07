@@ -60,9 +60,13 @@ class InMemoryAuthorCommandRepository implements AuthorCommandRepository
         );
     }
 
-    public function delete(Author $author): void
+    public function delete(AuthorId $authorId): void
     {
-        unset($this->authors[$author->authorId()->value()]);
+        unset($this->authors[$authorId->value()]);
+        $this->logger->debug(
+            'InMemoryAuthorCommandRepository::delete',
+            ['author_id' => $authorId->value()],
+        );
     }
 
     /**
