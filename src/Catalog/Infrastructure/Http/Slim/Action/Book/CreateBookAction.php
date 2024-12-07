@@ -45,6 +45,7 @@ class CreateBookAction extends Action
         if (!isset($formData['book_title'])) {
             throw new InvalidDataException('Field `book_title` is required', [
                 'class' => __CLASS__,
+                'method' => __METHOD__,
                 'payload' => $formData,
             ]);
         }
@@ -52,6 +53,7 @@ class CreateBookAction extends Action
         if (!isset($formData['author_id'])) {
             throw new InvalidDataException('Field `author_id` is required', [
                 'class' => __CLASS__,
+                'method' => __METHOD__,
                 'payload' => $formData,
             ]);
         }

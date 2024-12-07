@@ -14,7 +14,7 @@ class BookToArrayTransformer
         return [
             'book_id' => $book->bookId()->value(),
             'book_title' => $book->bookTitle()->value(),
-            'author' => AuthorToArrayTransformer::transform($book->author()),
+            'author_id' => $book->author()->authorId()->value(),
         ];
     }
 }

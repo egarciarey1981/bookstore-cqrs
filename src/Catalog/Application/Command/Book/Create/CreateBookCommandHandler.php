@@ -43,6 +43,7 @@ class CreateBookCommandHandler implements CommandHandler
         if ($author === null) {
             throw new InvalidDataException('Author not found', [
                 'class' => __CLASS__,
+                'method' => __METHOD__,
                 'payload' => $command,
             ]);
         }

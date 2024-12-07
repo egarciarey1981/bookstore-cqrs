@@ -45,6 +45,7 @@ class CreateAuthorAction extends Action
         if (!isset($formData['author_name'])) {
             throw new InvalidDataException('Field `author_name` is required', [
                 'class' => __CLASS__,
+                'method' => __METHOD__,
                 'payload' => $formData,
             ]);
         }

@@ -23,7 +23,7 @@ class DeleteBookAction extends Action
     public function action(): Response
     {
         $this->commandBus->dispatch(new DeleteBookCommand(
-            $this->args['author_id'],
+            $this->args['book_id'],
         ));
 
         $this->logger->info("Book was deleted.", $this->args);

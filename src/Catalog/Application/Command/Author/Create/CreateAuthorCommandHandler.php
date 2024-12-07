@@ -32,7 +32,7 @@ class CreateAuthorCommandHandler implements CommandHandler
 
         $author = new Author(
             $this->authorRepository->nextIdentity(),
-            new AuthorName($command->authorName())
+            new AuthorName($command->authorName()),
         );
 
         $this->authorRepository->save($author);

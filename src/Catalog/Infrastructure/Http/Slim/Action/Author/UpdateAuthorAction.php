@@ -2,14 +2,14 @@
 
 namespace Catalog\Infrastructure\Http\Slim\Action\Author;
 
-use Catalog\Application\Command\Author\Create\CreateAuthorCommand;
+use Catalog\Application\Command\Author\Update\UpdateAuthorCommand;
 use Shared\Application\Command\CommandBus;
 use Shared\Domain\Exception\InvalidDataException;
 use Shared\Infrastructure\Http\Slim\Action\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
-class CreateAuthorAction extends Action
+class UpdateAuthorAction extends Action
 {
     private CommandBus $commandBus;
 
@@ -28,11 +28,15 @@ class CreateAuthorAction extends Action
 
         $this->validateFormData($formData);
 
-        $this->commandBus->dispatch(new CreateAuthorCommand(
+        $this->commandBus->dispatch(new UpdateAuthorCommand(
+            $this->args['author_id'],
             $formData['author_name'],
         ));
 
-        $this->logger->info("Author was created.", $formData);
+        $this->logger->info(
+            'Author was updated.',
+            array_merge($formData, $this->args),
+        );
 
         return $this->response->withStatus(204);
     }
@@ -45,6 +49,7 @@ class CreateAuthorAction extends Action
         if (!isset($formData['author_name'])) {
             throw new InvalidDataException('Field `author_name` is required', [
                 'class' => __CLASS__,
+                'method' => __METHOD__,
                 'payload' => $formData,
             ]);
         }
