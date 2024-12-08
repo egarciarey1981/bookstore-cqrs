@@ -2,44 +2,33 @@
 
 namespace Catalog\Application\Command\Author\Create;
 
+use Catalog\Application\Command\Author\AuthorCommandHandler;
 use Catalog\Domain\Model\Author\Author;
-use Catalog\Domain\Model\Author\AuthorCommandRepository;
-use Shared\Application\Command\Command;
-use Shared\Application\Command\CommandHandler;
-use Shared\Application\Event\Author\AuthorCreatedEvent;
-use Shared\Application\Event\EventBus;
-use Shared\Domain\Model\Author\AuthorName;
 use Exception;
+use Shared\Application\Command\Command;
+use Shared\Application\Event\Author\AuthorCreatedEvent;
+use Shared\Domain\Model\Author\AuthorId;
+use Shared\Domain\Model\Author\AuthorName;
 
-class CreateAuthorCommandHandler implements CommandHandler
+class CreateAuthorCommandHandler extends AuthorCommandHandler
 {
-    private AuthorCommandRepository $authorRepository;
-    private EventBus $eventBus;
-
-    public function __construct(
-        AuthorCommandRepository $authorRepository,
-        EventBus $eventBus,
-    ) {
-        $this->authorRepository = $authorRepository;
-        $this->eventBus = $eventBus;
-    }
-
     public function handle(Command $command): void
     {
         if (!$command instanceof CreateAuthorCommand) {
             throw new Exception('Invalid command');
         }
 
-        $author = new Author(
-            $this->authorRepository->nextIdentity(),
-            new AuthorName($command->authorName()),
-        );
+        $authorId = new AuthorId($command->authorId());
+        $authorName = new AuthorName($command->authorName());
 
-        $this->authorRepository->save($author);
+        $this->authorRepository->save(new Author(
+            $authorId,
+            $authorName,
+        ));
 
         $this->eventBus->publish(new AuthorCreatedEvent(
-            $author->authorId(),
-            $author->authorName(),
+            $authorId,
+            $authorName,
         ));
     }
 }

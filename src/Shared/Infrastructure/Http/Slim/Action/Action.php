@@ -73,4 +73,11 @@ abstract class Action
 
         return $this->response->withStatus($status);
     }
+
+    protected function formData(): array
+    {
+        $formData = $this->request->getParsedBody();
+        assert(is_array($formData));
+        return $formData;
+    }
 }

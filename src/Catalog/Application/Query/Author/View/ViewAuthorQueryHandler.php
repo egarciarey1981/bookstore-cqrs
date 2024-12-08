@@ -2,21 +2,13 @@
 
 namespace Catalog\Application\Query\Author\View;
 
+use Catalog\Application\Query\Author\AuthorQueryHandler;
 use Catalog\Domain\Model\Author\AuthorNotFoundException;
-use Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Shared\Application\Query\Query;
-use Shared\Application\Query\QueryHandler;
 use Exception;
 
-class ViewAuthorQueryHandler implements QueryHandler
+class ViewAuthorQueryHandler extends AuthorQueryHandler
 {
-    private AuthorQueryRepository $authorRepository;
-
-    public function __construct(AuthorQueryRepository $authorRepository)
-    {
-        $this->authorRepository = $authorRepository;
-    }
-
     /**
      * @return array<mixed>
      */
@@ -29,10 +21,7 @@ class ViewAuthorQueryHandler implements QueryHandler
         $author = $this->authorRepository->findById($query->authorId());
 
         if (null === $author) {
-            throw new AuthorNotFoundException('Author not found.', [
-                'class' => __CLASS__,
-                'payload' => $query->toArray(),
-            ]);
+            throw new AuthorNotFoundException();
         }
 
         return $author;

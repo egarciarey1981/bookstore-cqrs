@@ -17,14 +17,4 @@ class ViewAuthorQuery implements Query
     {
         return $this->authorId;
     }
-
-    /**
-     * @return array<string,string>
-     */
-    public function toArray(): array
-    {
-        return [
-            'author_id' => $this->authorId,
-        ];
-    }
 }

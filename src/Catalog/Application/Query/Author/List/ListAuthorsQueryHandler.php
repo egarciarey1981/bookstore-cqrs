@@ -2,20 +2,12 @@
 
 namespace Catalog\Application\Query\Author\List;
 
-use Catalog\Domain\Model\Author\AuthorQueryRepository;
+use Catalog\Application\Query\Author\AuthorQueryHandler;
 use Shared\Application\Query\Query;
-use Shared\Application\Query\QueryHandler;
 use Exception;
 
-class ListAuthorsQueryHandler implements QueryHandler
+class ListAuthorsQueryHandler extends AuthorQueryHandler
 {
-    private AuthorQueryRepository $authorRepository;
-
-    public function __construct(AuthorQueryRepository $authorRepository)
-    {
-        $this->authorRepository = $authorRepository;
-    }
-
     /**
      * @return array<mixed>
      */

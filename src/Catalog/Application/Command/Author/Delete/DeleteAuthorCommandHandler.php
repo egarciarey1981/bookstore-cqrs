@@ -2,58 +2,33 @@
 
 namespace Catalog\Application\Command\Author\Delete;
 
-use Catalog\Domain\Model\Author\AuthorCommandRepository;
+use Catalog\Application\Command\Author\AuthorCommandHandler;
 use Catalog\Domain\Model\Author\AuthorNotFoundException;
 use Exception;
 use Shared\Application\Command\Command;
-use Shared\Application\Command\CommandHandler;
 use Shared\Application\Event\Author\AuthorDeletedEvent;
-use Shared\Application\Event\EventBus;
 use Shared\Domain\Model\Author\AuthorId;
 
-class DeleteAuthorCommandHandler implements CommandHandler
+class DeleteAuthorCommandHandler extends AuthorCommandHandler
 {
-    private AuthorCommandRepository $authorRepository;
-    private EventBus $eventBus;
-
-    public function __construct(
-        AuthorCommandRepository $authorRepository,
-        EventBus $eventBus,
-    ) {
-        $this->authorRepository = $authorRepository;
-        $this->eventBus = $eventBus;
-    }
-
     public function handle(Command $command): void
     {
         if (!$command instanceof DeleteAuthorCommand) {
             throw new Exception('Invalid command');
         }
 
-        $this->assertAuthorExists($command);
+        $authorId = new AuthorId($command->authorId());
 
-        $this->authorRepository->delete(
-            new AuthorId($command->authorId())
-        );
-
-        $this->eventBus->publish(
-            new AuthorDeletedEvent(
-                new AuthorId($command->authorId())
-            )
-        );
-    }
-
-    private function assertAuthorExists(DeleteAuthorCommand $command): void
-    {
-        $author = $this->authorRepository->findById(
-            new AuthorId($command->authorId())
-        );
+        $author = $this->authorRepository->findById($authorId);
 
         if ($author === null) {
-            throw new AuthorNotFoundException('Author not found', [
-                'class' => __CLASS__,
-                'payload' => $command->toArray(),
-            ]);
+            throw new AuthorNotFoundException();
         }
+
+        $this->authorRepository->delete($authorId);
+
+        $this->eventBus->publish(new AuthorDeletedEvent(
+            $authorId,
+        ));
     }
 }

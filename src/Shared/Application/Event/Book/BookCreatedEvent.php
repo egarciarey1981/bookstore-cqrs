@@ -10,31 +10,21 @@ use Shared\Domain\Model\Book\BookTitle;
 
 class BookCreatedEvent implements Event
 {
-    private AuthorId $authorId;
-    private AuthorName $authorName;
     private BookId $bookId;
     private BookTitle $bookTitle;
+    private AuthorId $authorId;
+    private AuthorName $authorName;
 
     public function __construct(
+        BookId $bookId,
+        BookTitle $bookTitle,
         AuthorId $authorId,
         AuthorName $authorName,
-        BookId $bookId,
-        BookTitle $bookTitle
     ) {
-        $this->authorId = $authorId;
-        $this->authorName = $authorName;
         $this->bookId = $bookId;
         $this->bookTitle = $bookTitle;
-    }
-
-    public function authorId(): AuthorId
-    {
-        return $this->authorId;
-    }
-
-    public function authorName(): AuthorName
-    {
-        return $this->authorName;
+        $this->authorId = $authorId;
+        $this->authorName = $authorName;
     }
 
     public function bookId(): BookId
@@ -45,5 +35,15 @@ class BookCreatedEvent implements Event
     public function bookTitle(): BookTitle
     {
         return $this->bookTitle;
+    }
+
+    public function authorId(): AuthorId
+    {
+        return $this->authorId;
+    }
+
+    public function authorName(): AuthorName
+    {
+        return $this->authorName;
     }
 }
