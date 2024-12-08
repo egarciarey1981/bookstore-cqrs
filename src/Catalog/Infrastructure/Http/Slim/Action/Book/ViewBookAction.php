@@ -4,22 +4,10 @@ namespace Catalog\Infrastructure\Http\Slim\Action\Book;
 
 use Catalog\Application\Query\Book\View\ViewBookQuery;
 use Shared\Infrastructure\Http\Slim\Action\Action;
-use Shared\Application\Query\QueryBus;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Log\LoggerInterface;
 
 class ViewBookAction extends Action
 {
-    private QueryBus $queryBus;
-
-    public function __construct(
-        LoggerInterface $logger,
-        QueryBus $queryBus,
-    ) {
-        parent::__construct($logger);
-        $this->queryBus = $queryBus;
-    }
-
     public function action(): Response
     {
         $book = $this->queryBus->ask(new ViewBookQuery(

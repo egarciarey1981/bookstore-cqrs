@@ -3,8 +3,6 @@
 namespace Shared\Infrastructure\Console\Symfony;
 
 use Psr\Log\LoggerInterface;
-use Shared\Domain\Exception\InvalidDataException;
-use Shared\Domain\Exception\ResourceNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,15 +29,11 @@ abstract class ConsoleCommand extends Command
         try {
             $this->executeCommand();
             return Command::SUCCESS;
-        } catch (InvalidDataException | ResourceNotFoundException $exception) {
-            $this->logger->error($exception->getMessage(), $exception->getContext());
         } catch (Throwable $exception) {
             $this->logger->error($exception->getMessage());
+            $this->output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
+            return Command::FAILURE;
         }
-
-        $this->output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
-
-        return Command::FAILURE;
     }
 
     abstract protected function executeCommand(): void;

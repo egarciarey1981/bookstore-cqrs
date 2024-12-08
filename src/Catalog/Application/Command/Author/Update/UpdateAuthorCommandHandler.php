@@ -13,7 +13,7 @@ use Shared\Domain\Model\Author\AuthorId;
 
 class UpdateAuthorCommandHandler extends AuthorCommandHandler
 {
-    public function handle(Command $command): void
+    public function handle(Command $command): mixed
     {
         if (!$command instanceof UpdateAuthorCommand) {
             throw new Exception('Invalid command');
@@ -37,5 +37,7 @@ class UpdateAuthorCommandHandler extends AuthorCommandHandler
             $authorId,
             $authorName,
         ));
+
+        return null;
     }
 }

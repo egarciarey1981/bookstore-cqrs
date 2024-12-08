@@ -3,8 +3,8 @@
 namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Catalog\Domain\Model\Author\AuthorQueryRepository;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Shared\Domain\Exception\InvalidDataException;
 
 class InMemoryAuthorQueryRepository implements AuthorQueryRepository
 {
@@ -38,13 +38,7 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
         $authors = array_values($this->authors);
 
         if (!in_array($sort, array_keys($authors[0]))) {
-            throw new InvalidDataException('Invalid sort field', [
-                'class' => self::class,
-                'page' => $page,
-                'limit' => $limit,
-                'sort' => $sort,
-                'order' => $order,
-            ]);
+            throw new InvalidArgumentException('Invalid sort field');
         }
 
         usort($authors, function ($a, $b) use ($sort, $order) {

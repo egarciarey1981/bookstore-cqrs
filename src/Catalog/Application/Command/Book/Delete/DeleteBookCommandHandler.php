@@ -11,7 +11,7 @@ use Shared\Domain\Model\Book\BookId;
 
 class DeleteBookCommandHandler extends BookCommandHandler
 {
-    public function handle(Command $command): void
+    public function handle(Command $command): mixed
     {
         if (!$command instanceof DeleteBookCommand) {
             throw new Exception('Invalid command');
@@ -30,5 +30,7 @@ class DeleteBookCommandHandler extends BookCommandHandler
         $this->eventBus->publish(new BookDeletedEvent(
             $book->bookId(),
         ));
+
+        return null;
     }
 }

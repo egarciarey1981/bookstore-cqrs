@@ -2,15 +2,15 @@
 
 namespace Catalog\Application\Query\Book;
 
-use Catalog\Domain\Model\Author\AuthorQueryRepository;
+use Catalog\Domain\Model\Book\BookQueryRepository;
 use Shared\Application\Query\Query;
 use Shared\Application\Query\QueryHandler;
 
 abstract class BookQueryHandler implements QueryHandler
 {
-    protected AuthorQueryRepository $bookRepository;
+    protected BookQueryRepository $bookRepository;
 
-    public function __construct(AuthorQueryRepository $bookRepository)
+    public function __construct(BookQueryRepository $bookRepository)
     {
         $this->bookRepository = $bookRepository;
     }

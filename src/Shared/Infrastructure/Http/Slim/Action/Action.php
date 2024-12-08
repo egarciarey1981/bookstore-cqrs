@@ -7,6 +7,8 @@ use Shared\Domain\Exception\ResourceNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use Shared\Application\Command\CommandBus;
+use Shared\Application\Query\QueryBus;
 use Throwable;
 
 abstract class Action
@@ -14,15 +16,23 @@ abstract class Action
     protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
+    protected QueryBus $queryBus;
+    protected CommandBus $commandBus;
 
     /**
      * @var array<mixed>
      */
     protected array $args;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(
+        LoggerInterface $logger,
+        QueryBus $queryBus,
+        CommandBus $commandBus,
+    )
     {
         $this->logger = $logger;
+        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
     }
 
     /**

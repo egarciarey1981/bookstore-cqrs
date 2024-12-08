@@ -3,8 +3,8 @@
 namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
 use Catalog\Domain\Model\Book\BookQueryRepository;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Shared\Domain\Exception\InvalidDataException;
 
 class InMemoryBookQueryRepository implements BookQueryRepository
 {
@@ -41,13 +41,7 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         $books = array_values($this->books);
 
         if (!in_array($sort, array_keys($books[0]))) {
-            throw new InvalidDataException('Invalid sort field', [
-                'class' => self::class,
-                'page' => $page,
-                'limit' => $limit,
-                'sort' => $sort,
-                'order' => $order,
-            ]);
+            throw new InvalidArgumentException('Invalid sort field');
         }
 
         usort($books, function ($a, $b) use ($sort, $order) {

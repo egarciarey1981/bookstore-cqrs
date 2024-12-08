@@ -24,5 +24,5 @@ abstract class BookCommandHandler implements CommandHandler
         $this->eventBus = $eventBus;
     }
 
-    abstract public function handle(Command $command): void;
+    abstract public function handle(Command $command): mixed;
 }

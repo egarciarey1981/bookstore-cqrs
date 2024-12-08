@@ -15,7 +15,7 @@ use Shared\Domain\Model\Book\BookTitle;
 
 class UpdateBookCommandHandler extends BookCommandHandler
 {
-    public function handle(Command $command): void
+    public function handle(Command $command): mixed
     {
         if (!$command instanceof UpdateBookCommand) {
             throw new Exception('Invalid command');
@@ -51,5 +51,7 @@ class UpdateBookCommandHandler extends BookCommandHandler
             $book->author()->authorId(),
             $book->author()->authorName(),
         ));
+
+        return null;
     }
 }

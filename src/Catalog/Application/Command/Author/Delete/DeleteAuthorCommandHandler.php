@@ -11,7 +11,7 @@ use Shared\Domain\Model\Author\AuthorId;
 
 class DeleteAuthorCommandHandler extends AuthorCommandHandler
 {
-    public function handle(Command $command): void
+    public function handle(Command $command): mixed
     {
         if (!$command instanceof DeleteAuthorCommand) {
             throw new Exception('Invalid command');
@@ -30,5 +30,7 @@ class DeleteAuthorCommandHandler extends AuthorCommandHandler
         $this->eventBus->publish(new AuthorDeletedEvent(
             $authorId,
         ));
+
+        return null;
     }
 }
