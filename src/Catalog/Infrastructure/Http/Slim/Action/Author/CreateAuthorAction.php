@@ -25,7 +25,7 @@ class CreateAuthorAction extends Action
         $this->logger->info(
             'Author was created.',
             array_merge($formData, ['author_id' => $authorId]),
-        );  
+        );
 
         return $this->response
             ->withHeader('Location', "/authors/$authorId")
