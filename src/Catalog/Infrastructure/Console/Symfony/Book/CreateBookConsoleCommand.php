@@ -29,13 +29,13 @@ class CreateBookConsoleCommand extends ConsoleCommand
 
     protected function executeCommand(): void
     {
-        $this->commandBus->dispatch(
+        $bookId = $this->commandBus->dispatch(
             new CreateBookCommand(
                 $this->input->getArgument('book_title'),
                 $this->input->getArgument('author_id'),
             )
         );
 
-        $this->output->writeln("\n<info>Book created successfully</info>\n");
+        $this->output->writeln("\n<info>Book created with ID: $bookId\n</info>");
     }
 }

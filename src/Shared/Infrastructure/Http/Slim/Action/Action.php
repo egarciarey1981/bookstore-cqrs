@@ -28,8 +28,7 @@ abstract class Action
         LoggerInterface $logger,
         QueryBus $queryBus,
         CommandBus $commandBus,
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->queryBus = $queryBus;
         $this->commandBus = $commandBus;
@@ -62,19 +61,17 @@ abstract class Action
 
         if ($t instanceof InvalidDataException) {
             $message = $t->getMessage();
-            $context = $t->getContext();
             $status = 400;
             $payload = ['error' => $t->getMessage()];
         } elseif ($t instanceof ResourceNotFoundException) {
             $message = $t->getMessage();
-            $context = $t->getContext();
             $status = 404;
         } else {
             $message = 'Internal Server Error';
             $status = 500;
         }
 
-        $this->logger->error($message, $context);
+        $this->logger->error($message);
 
         if (null !== $payload) {
             $this->response->getBody()->write(json_encode($payload, JSON_THROW_ON_ERROR));
@@ -84,6 +81,9 @@ abstract class Action
         return $this->response->withStatus($status);
     }
 
+    /**
+     * @return array<mixed>
+     */
     protected function formData(): array
     {
         $formData = $this->request->getParsedBody();

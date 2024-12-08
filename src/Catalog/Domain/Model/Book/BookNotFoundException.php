@@ -6,7 +6,7 @@ use Shared\Domain\Exception\ResourceNotFoundException;
 
 class BookNotFoundException extends ResourceNotFoundException
 {
-    public function __construct($message = 'Book not found')
+    public function __construct(string $message = 'Book not found')
     {
         parent::__construct($message);
     }

@@ -19,7 +19,7 @@ class InMemoryCommandBus implements CommandBus
         $this->handlers[$commandClass] = $handler;
     }
 
-    public function dispatch(Command $command): void
+    public function dispatch(Command $command): mixed
     {
         $commandClass = get_class($command);
 
@@ -29,6 +29,6 @@ class InMemoryCommandBus implements CommandBus
 
         $handler = $this->handlers[$commandClass];
 
-        $handler->handle($command);
+        return $handler->handle($command);
     }
 }

@@ -28,20 +28,13 @@ class CreateAuthorConsoleCommand extends ConsoleCommand
 
     protected function executeCommand(): void
     {
-        $authorId = uniqid();
-        $arguments = $this->input->getArguments();
-
-        $this->commandBus->dispatch(
+        $authorId = $this->commandBus->dispatch(
             new CreateAuthorCommand(
-                $authorId,
-                $arguments['author_name'],
+                $this->input->getArgument('author_name'),
             )
         );
 
-        $this->logger->info("Author was created.", [
-            'author_id' => $authorId,
-            'author_name' => $arguments['author_name'],
-        ]);
+        $this->logger->info("Author was created with ID: $authorId");
 
         $this->output->writeln("\n<info>Author created with ID: $authorId\n</info>");
     }
