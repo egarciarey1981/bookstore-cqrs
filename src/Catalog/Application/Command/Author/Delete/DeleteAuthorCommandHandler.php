@@ -3,6 +3,7 @@
 namespace Catalog\Application\Command\Author\Delete;
 
 use Catalog\Domain\Model\Author\AuthorCommandRepository;
+use Catalog\Domain\Model\Author\AuthorNotFoundException;
 use Exception;
 use Shared\Application\Command\Command;
 use Shared\Application\Command\CommandHandler;
@@ -29,12 +30,30 @@ class DeleteAuthorCommandHandler implements CommandHandler
             throw new Exception('Invalid command');
         }
 
-        $authorId = new AuthorId($command->getAuthorId());
+        $this->assertAuthorExists($command);
 
-        $this->authorRepository->delete($authorId);
+        $this->authorRepository->delete(
+            new AuthorId($command->authorId())
+        );
 
         $this->eventBus->publish(
-            new AuthorDeletedEvent($authorId)
+            new AuthorDeletedEvent(
+                new AuthorId($command->authorId())
+            )
         );
+    }
+
+    private function assertAuthorExists(DeleteAuthorCommand $command): void
+    {
+        $author = $this->authorRepository->findById(
+            new AuthorId($command->authorId())
+        );
+
+        if ($author === null) {
+            throw new AuthorNotFoundException('Author not found', [
+                'class' => __CLASS__,
+                'payload' => $command->toArray(),
+            ]);
+        }
     }
 }

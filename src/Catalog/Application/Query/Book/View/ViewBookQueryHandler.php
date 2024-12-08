@@ -30,7 +30,8 @@ class ViewBookQueryHandler implements QueryHandler
 
         if (null === $book) {
             throw new BookNotFoundException('Book not found.', [
-                'book_id' => $query->bookId(),
+                'class' => __CLASS__,
+                'payload' => $query->toArray(),
             ]);
         }
 

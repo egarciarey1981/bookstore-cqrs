@@ -26,4 +26,15 @@ class UpdateAuthorCommand implements Command
     {
         return $this->authorName;
     }
+
+    /**
+     * @return array<string,string>
+     */
+    public function toArray(): array
+    {
+        return [
+            'author_id' => $this->authorId,
+            'author_name' => $this->authorName,
+        ];
+    }
 }

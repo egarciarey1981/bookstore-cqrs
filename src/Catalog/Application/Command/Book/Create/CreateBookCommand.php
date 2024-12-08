@@ -26,4 +26,15 @@ class CreateBookCommand implements Command
     {
         return $this->authorId;
     }
+
+    /**
+     * @return array<string,string>
+     */
+    public function toArray(): array
+    {
+        return [
+            'book_title' => $this->bookTitle,
+            'author_id' => $this->authorId,
+        ];
+    }
 }

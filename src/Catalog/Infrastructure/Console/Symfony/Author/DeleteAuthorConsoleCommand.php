@@ -3,21 +3,18 @@
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
 use Catalog\Application\Command\Author\Delete\DeleteAuthorCommand;
-use Exception;
+use Psr\Log\LoggerInterface;
 use Shared\Application\Command\CommandBus;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Command\Command;
+use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteAuthorConsoleCommand extends Command
+class DeleteAuthorConsoleCommand extends ConsoleCommand
 {
     private CommandBus $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(LoggerInterface $logger, CommandBus $commandBus)
     {
-        parent::__construct();
+        parent::__construct($logger);
         $this->commandBus = $commandBus;
     }
 
@@ -29,21 +26,14 @@ class DeleteAuthorConsoleCommand extends Command
             ->addArgument('author_id', InputArgument::REQUIRED, 'The author ID');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function executeCommand(): void
     {
-        try {
-             $this->commandBus->dispatch(
-                new DeleteAuthorCommand(
-                    $input->getArgument('author_id'),
-                )
-            );
-        } catch (Exception $exception) {
-            $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
-            return Command::FAILURE;
-        }
+        $this->commandBus->dispatch(
+            new DeleteAuthorCommand(
+                $this->input->getArgument('author_id'),
+            )
+        );
 
-        $output->writeln("\n<info> Author deleted </info>\n");
-
-        return Command::SUCCESS;
+        $this->output->writeln("\n<info> Author deleted </info>\n");
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Catalog\Application\Command\Book\Create;
 
+use Catalog\Domain\Model\Author\Author;
 use Catalog\Domain\Model\Author\AuthorCommandRepository;
 use Catalog\Domain\Model\Book\Book;
 use Catalog\Domain\Model\Book\BookCommandRepository;
@@ -36,17 +37,7 @@ class CreateBookCommandHandler implements CommandHandler
             throw new Exception('Invalid command');
         }
 
-        $author = $this->authorCommandRepository->findById(
-            new AuthorId($command->authorId())
-        );
-
-        if ($author === null) {
-            throw new InvalidDataException('Author not found', [
-                'class' => __CLASS__,
-                'method' => __METHOD__,
-                'payload' => $command,
-            ]);
-        }
+        $author = $this->assertAuthorExists($command);
 
         $book = new Book(
             $this->bookCommandRepository->nextIdentity(),
@@ -62,5 +53,21 @@ class CreateBookCommandHandler implements CommandHandler
             $book->bookId(),
             $book->bookTitle(),
         ));
+    }
+
+    private function assertAuthorExists(CreateBookCommand $command): Author
+    {
+        $author = $this->authorCommandRepository->findById(
+            new AuthorId($command->authorId())
+        );
+
+        if ($author === null) {
+            throw new InvalidDataException('Author not found', [
+                'class' => __CLASS__,
+                'payload' => $command->toArray(),
+            ]);
+        }
+
+        return $author;
     }
 }

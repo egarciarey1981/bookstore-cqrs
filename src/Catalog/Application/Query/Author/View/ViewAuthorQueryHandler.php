@@ -30,7 +30,8 @@ class ViewAuthorQueryHandler implements QueryHandler
 
         if (null === $author) {
             throw new AuthorNotFoundException('Author not found.', [
-                'author_id' => $query->authorId(),
+                'class' => __CLASS__,
+                'payload' => $query->toArray(),
             ]);
         }
 

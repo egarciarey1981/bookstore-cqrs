@@ -13,8 +13,18 @@ class DeleteAuthorCommand implements Command
         $this->authorId = $authorId;
     }
 
-    public function getAuthorId(): string
+    public function authorId(): string
     {
         return $this->authorId;
+    }
+
+    /**
+     * @return array<string,string>
+     */
+    public function toArray(): array
+    {
+        return [
+            'author_id' => $this->authorId,
+        ];
     }
 }

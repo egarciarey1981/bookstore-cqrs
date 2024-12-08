@@ -3,21 +3,19 @@
 namespace Catalog\Infrastructure\Console\Symfony\Book;
 
 use Catalog\Application\Query\Book\View\ViewBookQuery;
-use Exception;
+use Psr\Log\LoggerInterface;
 use Shared\Application\Query\QueryBus;
+use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class ViewBookConsoleCommand extends Command
+class ViewBookConsoleCommand extends ConsoleCommand
 {
     private QueryBus $queryBus;
 
-    public function __construct(QueryBus $queryBus)
+    public function __construct(LoggerInterface $logger, QueryBus $queryBus)
     {
-        parent::__construct();
+        parent::__construct($logger);
         $this->queryBus = $queryBus;
     }
 
@@ -29,29 +27,22 @@ class ViewBookConsoleCommand extends Command
             ->addArgument('book_id', InputArgument::REQUIRED, 'The book ID');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function executeCommand(): void
     {
-        try {
-            $book = $this->queryBus->ask(
-                new ViewBookQuery(
-                    $input->getArgument('book_id'),
-                )
-            );
-        } catch (Exception $exception) {
-            $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
-            return Command::FAILURE;
-        }
+        $book = $this->queryBus->ask(
+            new ViewBookQuery(
+                $this->input->getArgument('book_id'),
+            )
+        );
 
-        $table = new Table($output);
+        $table = new Table($this->output);
 
         foreach ($book as $k => $v) {
             $table->addRow([$k, $v]);
         }
 
-        $output->writeln("");
+        $this->output->writeln("");
         $table->render();
-        $output->writeln("");
-
-        return Command::SUCCESS;
+        $this->output->writeln("");
     }
 }

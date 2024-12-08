@@ -18,7 +18,10 @@ return function (ContainerBuilder $containerBuilder) {
             );
 
             $logger->pushHandler(
-                new StreamHandler('php://stdout', Level::Debug)
+                new StreamHandler(
+                    __DIR__ . '/../logs/app.log',
+                    Level::Debug,
+                )
             );
 
             return $logger;

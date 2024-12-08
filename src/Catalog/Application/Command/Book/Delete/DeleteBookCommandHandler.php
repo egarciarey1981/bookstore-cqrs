@@ -3,6 +3,7 @@
 namespace Catalog\Application\Command\Book\Delete;
 
 use Catalog\Domain\Model\Book\BookCommandRepository;
+use Catalog\Domain\Model\Book\BookNotFoundException;
 use Exception;
 use Shared\Application\Command\Command;
 use Shared\Application\Command\CommandHandler;
@@ -29,12 +30,30 @@ class DeleteBookCommandHandler implements CommandHandler
             throw new Exception('Invalid command');
         }
 
-        $bookId = new BookId($command->getBookId());
+        $this->assertBookExists($command);
 
-        $this->bookRepository->delete($bookId);
+        $this->bookRepository->delete(
+            new BookId($command->bookId())
+        );
 
         $this->eventBus->publish(
-            new BookDeletedEvent($bookId)
+            new BookDeletedEvent(
+                new BookId($command->bookId())
+            )
         );
+    }
+
+    private function assertBookExists(DeleteBookCommand $command): void
+    {
+        $book = $this->bookRepository->findById(
+            new BookId($command->bookId())
+        );
+
+        if ($book === null) {
+            throw new BookNotFoundException('Book not found', [
+                'class' => __CLASS__,
+                'payload' => $command->toArray(),
+            ]);
+        }
     }
 }

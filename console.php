@@ -3,10 +3,15 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Catalog\Infrastructure\Console\Symfony\Author\CreateAuthorConsoleCommand;
 use Catalog\Infrastructure\Console\Symfony\Author\DeleteAuthorConsoleCommand;
 use Catalog\Infrastructure\Console\Symfony\Author\ListAuthorsConsoleCommand;
+use Catalog\Infrastructure\Console\Symfony\Author\UpdateAuthorConsoleCommand;
 use Catalog\Infrastructure\Console\Symfony\Author\ViewAuthorConsoleCommand;
+use Catalog\Infrastructure\Console\Symfony\Book\CreateBookConsoleCommand;
+use Catalog\Infrastructure\Console\Symfony\Book\DeleteBookConsoleCommand;
 use Catalog\Infrastructure\Console\Symfony\Book\ListBooksConsoleCommand;
+use Catalog\Infrastructure\Console\Symfony\Book\UpdateBookConsoleCommand;
 use Catalog\Infrastructure\Console\Symfony\Book\ViewBookConsoleCommand;
 use DI\ContainerBuilder;
 use Symfony\Component\Console\Application;
@@ -39,12 +44,17 @@ $container = $containerBuilder->build();
 $app = new Application();
 
 // Author
-$app->add($container->get(ViewAuthorConsoleCommand::class));
-$app->add($container->get(ListAuthorsConsoleCommand::class));
+$app->add($container->get(CreateAuthorConsoleCommand::class));
 $app->add($container->get(DeleteAuthorConsoleCommand::class));
+$app->add($container->get(ListAuthorsConsoleCommand::class));
+$app->add($container->get(UpdateAuthorConsoleCommand::class));
+$app->add($container->get(ViewAuthorConsoleCommand::class));
 
 // Book
-$app->add($container->get(ViewBookConsoleCommand::class));
+$app->add($container->get(CreateBookConsoleCommand::class));
+$app->add($container->get(DeleteBookConsoleCommand::class));
 $app->add($container->get(ListBooksConsoleCommand::class));
+$app->add($container->get(UpdateBookConsoleCommand::class));
+$app->add($container->get(ViewBookConsoleCommand::class));
 
 $app->run();

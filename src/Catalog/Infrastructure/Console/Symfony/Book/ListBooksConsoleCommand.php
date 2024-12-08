@@ -3,21 +3,20 @@
 namespace Catalog\Infrastructure\Console\Symfony\Book;
 
 use Catalog\Application\Query\Book\List\ListBooksQuery;
-use Exception;
+use Psr\Log\LoggerInterface;
 use Shared\Application\Query\QueryBus;
+use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class ListBooksConsoleCommand extends Command
+class ListBooksConsoleCommand extends ConsoleCommand
 {
     private QueryBus $queryBus;
 
-    public function __construct(QueryBus $queryBus)
+    public function __construct(LoggerInterface $logger, QueryBus $queryBus)
     {
-        parent::__construct();
+        parent::__construct($logger);
         $this->queryBus = $queryBus;
     }
 
@@ -32,28 +31,18 @@ class ListBooksConsoleCommand extends Command
             ->addOption('order', null, InputOption::VALUE_OPTIONAL, 'Order', 'asc');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function executeCommand(): void
     {
-        try {
-            $books = $this->queryBus->ask(
-                new ListBooksQuery(
-                    $input->getOption('page'),
-                    $input->getOption('limit'),
-                    $input->getOption('sort'),
-                    $input->getOption('order'),
-                )
-            );
-        } catch (Exception $exception) {
-            $output->writeln("\n<error> ERROR: {$exception->getMessage()} </error>\n");
-            return Command::FAILURE;
-        }
+        $books = $this->queryBus->ask(
+            new ListBooksQuery(
+                $this->input->getOption('page'),
+                $this->input->getOption('limit'),
+                $this->input->getOption('sort'),
+                $this->input->getOption('order'),
+            )
+        );
 
-        if (empty($books)) {
-            $output->writeln("\n<error> No books found </error>\n");
-            return Command::SUCCESS;
-        }
-
-        $table = new Table($output);
+        $table = new Table($this->output);
 
         $headers = array_keys($books[0]);
 
@@ -67,10 +56,8 @@ class ListBooksConsoleCommand extends Command
             $table->addRow($row);
         }
 
-        $output->writeln("");
+        $this->output->writeln("");
         $table->render();
-        $output->writeln("");
-
-        return Command::SUCCESS;
+        $this->output->writeln("");
     }
 }

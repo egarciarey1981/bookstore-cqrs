@@ -2,9 +2,11 @@
 
 namespace Catalog\Application\Command\Book\Update;
 
+use Catalog\Domain\Model\Author\Author;
 use Catalog\Domain\Model\Author\AuthorCommandRepository;
 use Catalog\Domain\Model\Book\Book;
 use Catalog\Domain\Model\Book\BookCommandRepository;
+use Catalog\Domain\Model\Book\BookNotFoundException;
 use Shared\Application\Command\Command;
 use Shared\Application\Command\CommandHandler;
 use Shared\Application\Event\Book\BookUpdatedEvent;
@@ -37,17 +39,8 @@ class UpdateBookCommandHandler implements CommandHandler
             throw new Exception('Invalid command');
         }
 
-        $author = $this->authorRepository->findById(
-            new AuthorId($command->authorId())
-        );
-
-        if ($author === null) {
-            throw new InvalidDataException('Author not found', [
-                'class' => __CLASS__,
-                'method' => __METHOD__,
-                'payload' => $command,
-            ]);
-        }
+        $this->assertBookExists($command);
+        $author = $this->assertAuthorExists($command);
 
         $book = new Book(
             new BookId($command->bookId()),
@@ -63,5 +56,35 @@ class UpdateBookCommandHandler implements CommandHandler
             $author->authorId(),
             $author->authorName(),
         ));
+    }
+
+    private function assertBookExists(UpdateBookCommand $command): void
+    {
+        $book = $this->bookRepository->findById(
+            new BookId($command->bookId())
+        );
+
+        if ($book === null) {
+            throw new BookNotFoundException('Book not found', [
+                'class' => __CLASS__,
+                'payload' => $command->toArray(),
+            ]);
+        }
+    }
+
+    private function assertAuthorExists(UpdateBookCommand $command): Author
+    {
+        $author = $this->authorRepository->findById(
+            new AuthorId($command->authorId())
+        );
+
+        if ($author === null) {
+            throw new InvalidDataException('Author not found', [
+                'class' => __CLASS__,
+                'payload' => $command->toArray(),
+            ]);
+        }
+
+        return $author;
     }
 }
