@@ -34,6 +34,6 @@ class DeleteBookConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info> Book deleted </info>\n");
+        $this->output->writeln("\n<info>Book deleted</info>\n");
     }
 }

@@ -38,6 +38,6 @@ class UpdateBookConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Book updated successfully</info>\n");
+        $this->output->writeln("\n<info>Book updated</info>\n");
     }
 }

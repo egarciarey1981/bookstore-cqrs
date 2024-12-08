@@ -36,6 +36,6 @@ class CreateBookConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Book created with ID: $bookId\n</info>");
+        $this->output->writeln("\n<info>Book created: $bookId\n</info>");
     }
 }

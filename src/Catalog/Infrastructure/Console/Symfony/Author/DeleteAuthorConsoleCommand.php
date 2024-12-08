@@ -34,6 +34,6 @@ class DeleteAuthorConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info> Author deleted </info>\n");
+        $this->output->writeln("\n<info>Author deleted</info>\n");
     }
 }

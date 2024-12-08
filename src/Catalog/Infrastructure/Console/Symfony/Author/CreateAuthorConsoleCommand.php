@@ -34,8 +34,8 @@ class CreateAuthorConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->logger->info("Author was created with ID: $authorId");
+        $this->logger->info("Author created: $authorId");
 
-        $this->output->writeln("\n<info>Author created with ID: $authorId\n</info>");
+        $this->output->writeln("\n<info>Author created: $authorId\n</info>");
     }
 }

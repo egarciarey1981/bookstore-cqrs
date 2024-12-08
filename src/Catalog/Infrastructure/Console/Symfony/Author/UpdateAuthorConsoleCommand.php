@@ -36,6 +36,6 @@ class UpdateAuthorConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Author updated successfully</info>\n");
+        $this->output->writeln("\n<info>Author updated</info>\n");
     }
 }
