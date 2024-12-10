@@ -2,6 +2,7 @@
 
 namespace Catalog\Application\Event\Book;
 
+use Catalog\Application\Query\Book\BookDTO;
 use Catalog\Domain\Model\Book\BookQueryRepository;
 use Shared\Application\Event\Book\BookUpdatedEvent;
 use Shared\Application\Event\Event;
@@ -23,11 +24,11 @@ class BookUpdatedEventHandler implements EventHandler
             throw new Exception('Invalid event');
         }
 
-        $this->authorRepository->save([
-            'book_id' => $event->bookId()->value(),
-            'book_title' => $event->bookTitle()->value(),
-            'author_id' => $event->authorId()->value(),
-            'author_name' => $event->authorName()->value(),
-        ]);
+        $this->authorRepository->save(new BookDTO(
+            $event->bookId()->value(),
+            $event->bookTitle()->value(),
+            $event->authorId()->value(),
+            $event->authorName()->value(),
+        ));
     }
 }

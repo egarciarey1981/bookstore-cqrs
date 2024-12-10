@@ -3,21 +3,11 @@
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
 use Catalog\Application\Command\Author\Create\CreateAuthorCommand;
-use Psr\Log\LoggerInterface;
-use Shared\Application\Command\CommandBus;
 use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 class CreateAuthorConsoleCommand extends ConsoleCommand
 {
-    private CommandBus $commandBus;
-
-    public function __construct(LoggerInterface $logger, CommandBus $commandBus)
-    {
-        parent::__construct($logger);
-        $this->commandBus = $commandBus;
-    }
-
     protected function configure()
     {
         $this
@@ -34,8 +24,6 @@ class CreateAuthorConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->logger->info("Author created: $authorId");
-
-        $this->output->writeln("\n<info>Author created: $authorId\n</info>");
+        $this->outputMessage("Author created: $authorId");
     }
 }

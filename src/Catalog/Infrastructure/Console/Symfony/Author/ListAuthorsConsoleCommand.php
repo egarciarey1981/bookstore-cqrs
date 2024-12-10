@@ -3,22 +3,12 @@
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
 use Catalog\Application\Query\Author\List\ListAuthorsQuery;
-use Psr\Log\LoggerInterface;
-use Shared\Application\Query\QueryBus;
 use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputOption;
 
 class ListAuthorsConsoleCommand extends ConsoleCommand
 {
-    private QueryBus $queryBus;
-
-    public function __construct(LoggerInterface $logger, QueryBus $queryBus)
-    {
-        parent::__construct($logger);
-        $this->queryBus = $queryBus;
-    }
-
     protected function configure()
     {
         $this
@@ -41,22 +31,6 @@ class ListAuthorsConsoleCommand extends ConsoleCommand
             )
         );
 
-        $table = new Table($this->output);
-
-        $headers = array_keys($authors[0]);
-
-        $table->setHeaders($headers);
-
-        foreach ($authors as $author) {
-            $row = [];
-            foreach ($headers as $header) {
-                $row[] = $author[$header];
-            }
-            $table->addRow($row);
-        }
-
-        $this->output->writeln("");
-        $table->render();
-        $this->output->writeln("");
+        $this->outputTable($authors);
     }
 }

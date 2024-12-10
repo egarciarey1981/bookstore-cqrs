@@ -24,6 +24,6 @@ class ViewAuthorQueryHandler extends AuthorQueryHandler
             throw new AuthorNotFoundException();
         }
 
-        return $author;
+        return $author->toArray();
     }
 }

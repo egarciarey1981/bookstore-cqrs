@@ -23,7 +23,7 @@ class ListBooksAction extends Action
             'books' => $books,
         ], JSON_THROW_ON_ERROR));
 
-        $this->logger->info("Books were viewed.", $queryParams);
+        $this->logger->info('Books were listed.', $queryParams);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

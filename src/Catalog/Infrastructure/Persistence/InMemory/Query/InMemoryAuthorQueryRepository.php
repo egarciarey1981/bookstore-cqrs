@@ -2,6 +2,7 @@
 
 namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
+use Catalog\Application\Query\Author\AuthorDTO;
 use Catalog\Domain\Model\Author\AuthorQueryRepository;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -16,7 +17,7 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
     private array $authors = [];
 
     /**
-     * @param array<array<string,mixed>>|null $authors
+     * @param AuthorDTO[]|null $authors
      */
     public function __construct(
         LoggerInterface $logger,
@@ -29,7 +30,10 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
         }
 
         foreach ($authors as $author) {
-            $this->authors[$author['author_id']] = $author;
+            $this->authors[$author->authorId()] = [
+                'author_id' => $author->authorId(),
+                'author_name' => $author->authorName(),
+            ];
         }
     }
 
@@ -47,20 +51,37 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
                 : $b[$sort] <=> $a[$sort];
         });
 
-        return array_slice($authors, ($page - 1) * $limit, $limit);
+        $authors = array_slice($authors, ($page - 1) * $limit, $limit);
+
+        return array_map(function ($author) {
+            return new AuthorDTO(
+                $author['author_id'],
+                $author['author_name'],
+            );
+        }, $authors);
     }
 
-    public function findById(string $authorId): ?array
+    public function findById(string $authorId): ?AuthorDTO
     {
-        return $this->authors[$authorId] ?? null;
+        if (!isset($this->authors[$authorId])) {
+            return null;
+        }
+
+        return new AuthorDTO(
+            $this->authors[$authorId]['author_id'],
+            $this->authors[$authorId]['author_name'],
+        );
     }
 
-    public function save(array $author): void
+    public function save(AuthorDTO $author): void
     {
-        $this->authors[$author['author_id']] = $author;
+        $this->authors[$author->authorId()] = [
+            'author_id' => $author->authorId(),
+            'author_name' => $author->authorName(),
+        ];
         $this->logger->debug(
             'InMemoryAuthorQueryRepository::save',
-            $author,
+            $author->toArray(),
         );
     }
 
@@ -74,11 +95,11 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
     }
 
     /**
-     * @return array<array<string,mixed>>
+     * @return AuthorDTO[]
      */
     private function defaultAuthors(): array
     {
-        return [
+        $data = [
             [
                 'author_id' => 'doyle',
                 'author_name' => 'Arthur Conan Doyle',
@@ -96,5 +117,12 @@ class InMemoryAuthorQueryRepository implements AuthorQueryRepository
                 'author_name' => 'Daniel Dafoe',
             ],
         ];
+
+        return array_map(function ($author) {
+            return new AuthorDTO(
+                $author['author_id'],
+                $author['author_name'],
+            );
+        }, $data);
     }
 }

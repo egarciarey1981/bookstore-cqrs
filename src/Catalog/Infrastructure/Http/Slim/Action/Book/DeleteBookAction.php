@@ -14,7 +14,7 @@ class DeleteBookAction extends Action
             $this->args['book_id'],
         ));
 
-        $this->logger->info("Book was deleted.", $this->args);
+        $this->logger->info('Book was deleted.', $this->args);
 
         return $this->response->withStatus(204);
     }

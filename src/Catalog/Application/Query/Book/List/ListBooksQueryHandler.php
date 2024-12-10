@@ -17,11 +17,16 @@ class ListBooksQueryHandler extends BookQueryHandler
             throw new Exception('Invalid query');
         }
 
-        return $this->bookRepository->findAll(
+        $books = $this->bookRepository->findAll(
             $query->page(),
             $query->limit(),
             $query->sort(),
             $query->order(),
+        );
+
+        return array_map(
+            fn($book) => $book->toArray(),
+            $books
         );
     }
 }

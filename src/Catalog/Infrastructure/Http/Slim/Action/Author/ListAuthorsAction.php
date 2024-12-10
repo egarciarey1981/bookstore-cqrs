@@ -23,7 +23,7 @@ class ListAuthorsAction extends Action
             'authors' => $authors,
         ], JSON_THROW_ON_ERROR));
 
-        $this->logger->info('Authors were viewed.', $queryParams);
+        $this->logger->info('Authors were listed.', $queryParams);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

@@ -25,7 +25,7 @@ class UpdateAuthorAction extends Action
 
         $this->logger->info(
             'Author was updated.',
-            array_merge($formData, $this->args),
+            array_merge($this->args, $formData),
         );
 
         return $this->response->withStatus(204);

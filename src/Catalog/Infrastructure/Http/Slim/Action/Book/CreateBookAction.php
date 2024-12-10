@@ -27,7 +27,7 @@ class CreateBookAction extends Action
 
         $this->logger->info(
             'Book was created.',
-            array_merge($formData, ['book_id' => $bookId]),
+            array_merge(['book_id' => $bookId], $formData),
         );
 
         return $this->response

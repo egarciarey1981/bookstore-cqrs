@@ -3,21 +3,11 @@
 namespace Catalog\Infrastructure\Console\Symfony\Book;
 
 use Catalog\Application\Command\Book\Update\UpdateBookCommand;
-use Psr\Log\LoggerInterface;
-use Shared\Application\Command\CommandBus;
 use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 class UpdateBookConsoleCommand extends ConsoleCommand
 {
-    private CommandBus $commandBus;
-
-    public function __construct(LoggerInterface $logger, CommandBus $commandBus)
-    {
-        parent::__construct($logger);
-        $this->commandBus = $commandBus;
-    }
-
     protected function configure()
     {
         $this
@@ -38,6 +28,6 @@ class UpdateBookConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Book updated</info>\n");
+        $this->outputMessage("Book updated");
     }
 }

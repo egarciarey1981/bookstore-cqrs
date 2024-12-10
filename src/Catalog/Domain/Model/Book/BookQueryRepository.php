@@ -2,22 +2,18 @@
 
 namespace Catalog\Domain\Model\Book;
 
+use Catalog\Application\Query\Book\BookDTO;
+
 interface BookQueryRepository
 {
     /**
-     * @return array<string,mixed>[]
+     * @return BookDTO[]
      */
     public function findAll(int $page, int $limit, string $sort, string $order): array;
 
-    /**
-     * @return array<string,mixed>|null
-     */
-    public function findById(string $bookId): ?array;
+    public function findById(string $bookId): ?BookDTO;
 
-    /**
-     * @param array<string,mixed> $book
-     */
-    public function save(array $book): void;
+    public function save(BookDTO $book): void;
 
     public function delete(string $bookId): void;
 }

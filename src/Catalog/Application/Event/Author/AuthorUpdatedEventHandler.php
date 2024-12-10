@@ -2,6 +2,7 @@
 
 namespace Catalog\Application\Event\Author;
 
+use Catalog\Application\Query\Author\AuthorDTO;
 use Catalog\Domain\Model\Author\AuthorQueryRepository;
 use Shared\Application\Event\Author\AuthorUpdatedEvent;
 use Shared\Application\Event\Event;
@@ -23,9 +24,9 @@ class AuthorUpdatedEventHandler implements EventHandler
             throw new Exception('Invalid event');
         }
 
-        $this->authorRepository->save([
-            'author_id' => $event->authorId()->value(),
-            'author_name' => $event->authorName()->value(),
-        ]);
+        $this->authorRepository->save(new AuthorDTO(
+            $event->authorId()->value(),
+            $event->authorName()->value(),
+        ));
     }
 }

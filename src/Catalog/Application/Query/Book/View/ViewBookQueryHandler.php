@@ -24,6 +24,6 @@ class ViewBookQueryHandler extends BookQueryHandler
             throw new BookNotFoundException();
         }
 
-        return $book;
+        return $book->toArray();
     }
 }

@@ -24,7 +24,7 @@ class CreateAuthorAction extends Action
 
         $this->logger->info(
             'Author was created.',
-            array_merge($formData, ['author_id' => $authorId]),
+            array_merge(['author_id' => $authorId], $formData),
         );
 
         return $this->response

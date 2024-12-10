@@ -17,11 +17,16 @@ class ListAuthorsQueryHandler extends AuthorQueryHandler
             throw new Exception('Invalid query');
         }
 
-        return $this->authorRepository->findAll(
+        $authors = $this->authorRepository->findAll(
             $query->page(),
             $query->limit(),
             $query->sort(),
             $query->order()
+        );
+
+        return array_map(
+            fn($author) => $author->toArray(),
+            $authors
         );
     }
 }

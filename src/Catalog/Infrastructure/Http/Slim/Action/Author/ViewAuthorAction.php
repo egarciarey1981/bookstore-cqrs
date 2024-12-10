@@ -18,7 +18,7 @@ class ViewAuthorAction extends Action
             'author' => $author,
         ], JSON_THROW_ON_ERROR));
 
-        $this->logger->info("Author was viewed.", $this->args);
+        $this->logger->info('Author was viewed.', $this->args);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

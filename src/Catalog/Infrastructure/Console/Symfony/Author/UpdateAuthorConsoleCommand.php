@@ -3,21 +3,11 @@
 namespace Catalog\Infrastructure\Console\Symfony\Author;
 
 use Catalog\Application\Command\Author\Update\UpdateAuthorCommand;
-use Psr\Log\LoggerInterface;
-use Shared\Application\Command\CommandBus;
 use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 class UpdateAuthorConsoleCommand extends ConsoleCommand
 {
-    private CommandBus $commandBus;
-
-    public function __construct(LoggerInterface $logger, CommandBus $commandBus)
-    {
-        parent::__construct($logger);
-        $this->commandBus = $commandBus;
-    }
-
     protected function configure()
     {
         $this
@@ -36,6 +26,6 @@ class UpdateAuthorConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Author updated</info>\n");
+        $this->outputMessage("Author updated");
     }
 }

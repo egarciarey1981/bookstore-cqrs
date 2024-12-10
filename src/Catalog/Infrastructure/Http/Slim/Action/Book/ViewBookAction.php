@@ -18,7 +18,7 @@ class ViewBookAction extends Action
             'book' => $book,
         ], JSON_THROW_ON_ERROR));
 
-        $this->logger->info("Book was viewed.", $this->args);
+        $this->logger->info('Book was viewed.', $this->args);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json')

@@ -27,8 +27,8 @@ class UpdateBookAction extends Action
         ));
 
         $this->logger->info(
-            'Book was created.',
-            array_merge($formData, $this->args),
+            'Book was updated',
+            array_merge($this->args, $formData),
         );
 
         return $this->response->withStatus(204);

@@ -3,21 +3,11 @@
 namespace Catalog\Infrastructure\Console\Symfony\Book;
 
 use Catalog\Application\Command\Book\Create\CreateBookCommand;
-use Psr\Log\LoggerInterface;
-use Shared\Application\Command\CommandBus;
 use Shared\Infrastructure\Console\Symfony\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 class CreateBookConsoleCommand extends ConsoleCommand
 {
-    private CommandBus $commandBus;
-
-    public function __construct(LoggerInterface $logger, CommandBus $commandBus)
-    {
-        parent::__construct($logger);
-        $this->commandBus = $commandBus;
-    }
-
     protected function configure()
     {
         $this
@@ -36,6 +26,6 @@ class CreateBookConsoleCommand extends ConsoleCommand
             )
         );
 
-        $this->output->writeln("\n<info>Book created: $bookId\n</info>");
+        $this->outputMessage("Book created: $bookId");
     }
 }

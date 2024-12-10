@@ -2,6 +2,7 @@
 
 namespace Catalog\Infrastructure\Persistence\InMemory\Query;
 
+use Catalog\Application\Query\Book\BookDTO;
 use Catalog\Domain\Model\Book\BookQueryRepository;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -16,7 +17,7 @@ class InMemoryBookQueryRepository implements BookQueryRepository
     private array $books = [];
 
     /**
-     * @param array<array<string,mixed>>|null $books
+     * @param BookDTO[]|null $books
      */
     public function __construct(
         LoggerInterface $logger,
@@ -29,12 +30,17 @@ class InMemoryBookQueryRepository implements BookQueryRepository
         }
 
         foreach ($books as $book) {
-            $this->books[$book['book_id']] = $book;
+            $this->books[$book->bookId()] = [
+                'book_id' => $book->bookId(),
+                'book_title' => $book->bookTitle(),
+                'author_id' => $book->authorId(),
+                'author_name' => $book->authorName(),
+            ];
         }
     }
 
     /**
-     * @return array<array<string,mixed>>
+     * @return BookDTO[]
      */
     public function findAll(int $page, int $limit, string $sort, string $order): array
     {
@@ -50,26 +56,46 @@ class InMemoryBookQueryRepository implements BookQueryRepository
                 : $b[$sort] <=> $a[$sort];
         });
 
-        return array_slice($books, ($page - 1) * $limit, $limit);
+        $books = array_slice($books, ($page - 1) * $limit, $limit);
+
+        return array_map(function ($book) {
+            return new BookDTO(
+                $book['book_id'],
+                $book['book_title'],
+                $book['author_id'],
+                $book['author_name'],
+            );
+        }, $books);
     }
 
     /**
-     * @return array<string,mixed>|null
+     * @return BookDTO|null
      */
-    public function findById(string $bookId): ?array
+    public function findById(string $bookId): ?BookDTO
     {
-        return $this->books[$bookId] ?? null;
+        if (!isset($this->books[$bookId])) {
+            return null;
+        }
+
+        return new BookDTO(
+            $this->books[$bookId]['book_id'],
+            $this->books[$bookId]['book_title'],
+            $this->books[$bookId]['author_id'],
+            $this->books[$bookId]['author_name'],
+        );
     }
 
-    /**
-     * @param array<string,mixed> $book
-     */
-    public function save(array $book): void
+    public function save(BookDTO $book): void
     {
-        $this->books[$book['book_id']] = $book;
+        $this->books[$book->bookId()] = [
+            'book_id' => $book->bookId(),
+            'book_title' => $book->bookTitle(),
+            'author_id' => $book->authorId(),
+            'author_name' => $book->authorName(),
+        ];
         $this->logger->debug(
             'InMemoryBookQueryRepository::save',
-            $book,
+            $book->toArray(),
         );
     }
 
@@ -83,11 +109,11 @@ class InMemoryBookQueryRepository implements BookQueryRepository
     }
 
     /**
-     * @return array<array<string,mixed>>
+     * @return BookDTO[]
      */
     private function defaultBooks(): array
     {
-        return [
+        $data = [
             [
                 'book_id' => 'sherlock',
                 'book_title' => 'Sherlock Holmes',
@@ -125,5 +151,14 @@ class InMemoryBookQueryRepository implements BookQueryRepository
                 'author_name' => 'Daniel Dafoe',
             ],
         ];
+
+        return array_map(function ($book) {
+            return new BookDTO(
+                $book['book_id'],
+                $book['book_title'],
+                $book['author_id'],
+                $book['author_name'],
+            );
+        }, $data);
     }
 }
